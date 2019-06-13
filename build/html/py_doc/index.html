@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Python Note &mdash; openstack 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. [翻译] PySNMP教程" href="pysnmp_doc.html" />
+    <link rel="prev" title="爱不危险" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> openstack
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python Note</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc.html">1. [翻译] PySNMP教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html">2. PySNMP获取设备信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html">3. [翻译] Python正则表达式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html">4. WSGI基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="re_analysis.html">5. Python正则表达式分析利器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_descriptor.html">6. Python描述器</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html">7. Python学习总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html">8. Python 编码问题总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dec_logic.html">9. Python 装饰器、闭包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="webob_analysis.html">10. webob库简单分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metaclass_intro.html">11. Python元类</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html">12. Python Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log_summary.html">13. logging 模块总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_note.html">14. django笔记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_path.html">15. Python文件与目录操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html">16. sqlalchemy笔记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_date.html">17. Python时间和日期操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pecan_note.html">18. pecan学习示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html">19. stevedore库学习</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-i18n.html">20. django国际化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unittest.html">21. unittest单元测试</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../linux_tools/index.html">Hack Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../openstack/index.html">OpenStack Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">网络技术/neutron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/index.html">未分类</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openstack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Python Note</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/py_doc/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="python-note">
+<span id="id1"></span><h1>Python Note<a class="headerlink" href="#python-note" title="Permalink to this headline">¶</a></h1>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Python是我当前工作的主要语言，也是我很喜欢的一门编程语言。
+这篇是 Python 相关的个人学习笔记和工作总结。</p>
+</div>
+<hr class="docutils" />
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pysnmp_doc.html">1. [翻译] PySNMP教程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc.html#id2">1.1. 快速入门</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#snmp">1.1.1. 获取SNMP变量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#snmp-trap">1.1.2. 发送<strong>SNMP TRAP</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc.html#id3">1.2. 参考手册</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#id4">1.2.1. SNMP历史</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#id7">1.2.2. SNMP设计</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#id14">1.2.3. PySNMP架构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pysnmp_doc.html#id15">1.2.4. 常用操作</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pysnmp_doc_example.html">2. PySNMP获取设备信息</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html#cpu">2.1. cpu信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html#id2">2.2. 内存信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html#disk">2.3. disk信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html#id3">2.4. 流量信息</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pysnmp_doc_example.html#id4">2.5. 总结</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="re_doc.html">3. [翻译] Python正则表达式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id2">3.1. 摘要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id3">3.2. 简介</a></li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id4">3.3. 简单模式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id5">3.3.1. 匹配字符</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id6">3.3.2. 重复匹配</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id7">3.4. 使用正则</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id8">3.4.1. 编译正则表达式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id9">3.4.2. 麻烦的反斜杠<code class="docutils literal notranslate"><span class="pre">\</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id10">3.4.3. 执行匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id11">3.4.4. 模块级函数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id12">3.4.5. 编译标志</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id13">3.5. 更复杂的模式</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id14">3.5.1. 更多的元字符</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id15">3.5.2. 分组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id16">3.5.3. 非捕获分组和命名分组</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id17">3.5.4. 前向断言</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id18">3.6. 修改字符串</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id19">3.6.1. 切割字符串</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id20">3.6.2. 查找和替换</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="re_doc.html#id21">3.7. 常见问题</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id22">3.7.1. 使用字符串方法</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#match-search">3.7.2. match()和search()对比</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#id23">3.7.3. 贪婪和非贪婪匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="re_doc.html#re-verbose">3.7.4. 使用<code class="docutils literal notranslate"><span class="pre">re.VERBOSE</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wsgi.html">4. WSGI基础</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html#id2">4.1. 一系列术语</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html#id3">4.2. wsgi 中间件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html#id4">4.3. 特别注意</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html#unicode">4.4. Unicode问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wsgi.html#id5">4.5. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="re_analysis.html">5. Python正则表达式分析利器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_descriptor.html">6. Python描述器</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_descriptor.html#id1">6.1. 要点</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_notebook.html">7. Python学习总结</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html#id2">7.1. 语言特性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#str">7.1.1. str</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#dict">7.1.2. dict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#golbal">7.1.3. golbal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#and-or-not">7.1.4. and/or/not</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#for-else">7.1.5. for……else循环</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#id3">7.1.6. 默认参数问题</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#getattr-hasattr-setattr">7.1.7. getattr, hasattr, setattr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#callable">7.1.8. callable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#id4">7.1.9. 原始字符串</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html#id5">7.2. 语言陷阱</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#id6">7.2.1. 浅复制</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html#id7">7.3. 小技巧</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#id8">7.3.1. 获取函数名，当前行号，文件名</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html#id9">7.4. 标准库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#httplib-http">7.4.1. Httplib：http处理</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#configparser">7.4.2. ConfigParser：配置文件操作</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#re">7.4.3. re：正则匹配</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#pexpect">7.4.4. Pexpect：自动化交互</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#subprocess">7.4.5. Subprocess：创建进程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#functools">7.4.6. functools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#elementtree-xml">7.4.7. ElementTree：XML解析</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_notebook.html#id10">7.5. 第三方库</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_notebook.html#flask">7.5.1. Flask框架</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_coding.html">8. Python 编码问题总结</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#id2">8.1. 系统默认编码</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_coding.html#id4">8.1.1. 源文件编码</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_coding.html#sys-stdin-encodingsys-stdout-encoding">8.1.2. sys.stdin.encoding和sys.stdout.encoding</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_coding.html#sys-getdefaultencoding">8.1.3. sys.getdefaultencoding()</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#id6">8.2. 文本串/字节串混合操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#python2-xstring">8.3. Python2.x中的string</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#id8">8.4. 最佳实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#python-unicode-howto">8.5. Python unicode HowTo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_coding.html#id9">8.5.1. 编码定义</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_coding.html#unicode">8.5.2. 读写unicode数据</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#wsgi-http">8.6. WSGI/HTTP编码问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_coding.html#id10">8.7. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dec_logic.html">9. Python 装饰器、闭包</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dec_logic.html#id2">9.1. Python 闭包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dec_logic.html#id6">9.2. Python 装饰器</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id7">9.2.1. 函数是对象</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id8">9.2.2. 函数引用</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id9">9.2.3. 手动装饰器</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dec_logic.html#id11">9.3. 装饰器逻辑</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id12">9.3.1. 类装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id13">9.3.2. 函数装饰器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dec_logic.html#id14">9.3.3. 类装饰器带参数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="webob_analysis.html">10. webob库简单分析</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metaclass_intro.html">11. Python元类</a></li>
+<li class="toctree-l1"><a class="reference internal" href="os_lib.html">12. Python Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#inspect">12.1. inspect</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="os_lib.html#inspect-stack">12.1.1. inspect.stack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#weakref">12.2. weakref</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#sched">12.3. sched</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#sh">12.4. sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#stevedore">12.5. stevedore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_lib.html#sqlalchemy">12.6. sqlalchemy</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="log_summary.html">13. logging 模块总结</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="log_summary.html#id2">13.1. logging 模块工作模式与要点</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="log_summary.html#logger">13.1.1. Logger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log_summary.html#handler">13.1.2. Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="log_summary.html#no-handler-found">13.2. no handler found提示</a></li>
+<li class="toctree-l2"><a class="reference internal" href="log_summary.html#id3">13.3. 编写自己的日志包</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="django_note.html">14. django笔记</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="django_note.html#httprequest">14.1. HttpRequest对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_note.html#id2">14.2. 模型</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="django_note.html#id3">14.2.1. 数据查询</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="django_note.html#id5">14.3. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python_path.html">15. Python文件与目录操作</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python_path.html#id2">15.1. 获取文件绝对目录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python_path.html#id3">15.2. 文件和目录操作</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python_path.html#id4">15.2.1. 目录下所有文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_path.html#id5">15.2.2. 获取文件属性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python_path.html#id6">15.2.3. 根据文件属性获取文件用户、组信息</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sqlalchemy.html">16. sqlalchemy笔记</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#id3">16.1. 定义表</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sqlalchemy.html#id4">16.1.1. 方式一</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sqlalchemy.html#id5">16.1.2. 方式二</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#id6">16.2. 插入</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sqlalchemy.html#id7">16.3. 查询</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="time_date.html">17. Python时间和日期操作</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="time_date.html#id2">17.1. 相关对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time_date.html#id3">17.2. 转化关系</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="time_date.html#tuple-string">17.2.1. tuple &lt;–&gt; string</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_date.html#datetime-string">17.2.2. datetime &lt;–&gt; string</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_date.html#datetime-timetuple">17.2.3. datetime &lt;–&gt; timetuple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_date.html#string">17.2.4. 时间戳转换成成string</a></li>
+<li class="toctree-l3"><a class="reference internal" href="time_date.html#id4">17.2.5. 其他转化</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="time_date.html#id5">17.3. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pecan_note.html">18. pecan学习示例</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pecan_note.html#id2">18.1. 入门示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pecan_note.html#url">18.2. url查询字符串</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pecan_note.html#id3">18.3. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stevedemo.html">19. stevedore库学习</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html#id2">19.1. 代码结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html#id3">19.2. 定义插件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html#id4">19.3. 声明插件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html#id5">19.4. 执行</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stevedemo.html#id6">19.5. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="django-i18n.html">20. django国际化</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="django-i18n.html#python">20.1. Python代码国际化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-i18n.html#id3">20.2. 模板国际化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-i18n.html#id4">20.3. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="unittest.html">21. unittest单元测试</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="unittest.html#id3">21.1. 基本概念</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unittest.html#id4">21.2. 核心实现</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="unittest.html#test">21.2.1. test加载</a></li>
+<li class="toctree-l3"><a class="reference internal" href="unittest.html#test-fixture">21.2.2. test-fixture</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unittest.html#id5">21.3. 参考</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pysnmp_doc.html" class="btn btn-neutral float-right" title="1. [翻译] PySNMP教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral float-left" title="爱不危险" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ZT
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

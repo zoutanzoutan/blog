@@ -1,0 +1,1056 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>4. Linux命令和shell &mdash; openstack 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Linux 磁盘和分区" href="disk_note.html" />
+    <link rel="prev" title="3. 善用Linux man page" href="use_man_page.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> openstack
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../py_doc/index.html">Python Note</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Hack Linux</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="git_cmd.html">1. git 版本控制</a></li>
+<li class="toctree-l2"><a class="reference internal" href="samba_config.html">2. Samba共享访问配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="use_man_page.html">3. 善用Linux man page</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">4. Linux命令和shell</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bash">4.1. bash快捷键</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">4.2. bash编程</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">4.2.1. 正则匹配</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">4.2.2. 特殊字符处理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">4.2.3. 重定向和管道</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">4.2.4. 尖括号用法收集</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">4.2.5. 字符串截取</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">4.3. 性能调优</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">4.4. 常用命令</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#nc">4.4.1. nc</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#apt-get">4.4.2. apt-get</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#awk">4.4.3. awk</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cut">4.4.4. cut</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dpkg">4.4.5. dpkg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wget">4.4.6. wget</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scp-rsync">4.4.7. scp/rsync</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ssh">4.4.8. ssh</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sed">4.4.9. sed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#route">4.4.10. route</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ps">4.4.11. ps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#df-du">4.4.12. df/du</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#find">4.4.13. find</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#locate-updatedb">4.4.14. locate/updatedb</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xargs">4.4.15. xargs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lsof">4.4.16. lsof</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#netstat">4.4.17. netstat</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nmap">4.4.18. nmap</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ss">4.4.19. ss</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ln-unlink">4.4.20. ln/unlink</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#grep">4.4.21. grep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pgrep">4.4.22. pgrep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pkill">4.4.23. pkill</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tar">4.4.24. tar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#crontab">4.4.25. crontab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">4.4.26. 系统和内核信息</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21">4.4.27. 查看系统启动服务</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#linux">4.5. Linux一行命令汇总</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="disk_note.html">5. Linux 磁盘和分区</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ubuntu_lvm_extend.html">6. Ubuntu根分区使用Lvm扩容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dell_server_manual.html">7. DELL 服务器操作手册</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curl_param_cut.html">8. shell 元字符问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hack_vim.html">9. vim使用手册</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centos_net_sum.html">10. Linux 联网问题汇总</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linux-time-zone.html">11. Linux时间与时区问题</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../openstack/index.html">OpenStack Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">网络技术/neutron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/index.html">未分类</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openstack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Hack Linux</a> &raquo;</li>
+        
+      <li>4. Linux命令和shell</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/linux_tools/linux_cmd.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="linuxshell">
+<span id="linux-cmd"></span><h1><a class="toc-backref" href="#id27">4. Linux命令和shell</a><a class="headerlink" href="#linuxshell" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#linuxshell" id="id27">Linux命令和shell</a><ul>
+<li><a class="reference internal" href="#bash" id="id28">bash快捷键</a></li>
+<li><a class="reference internal" href="#id2" id="id29">bash编程</a><ul>
+<li><a class="reference internal" href="#id3" id="id30">正则匹配</a></li>
+<li><a class="reference internal" href="#id4" id="id31">特殊字符处理</a></li>
+<li><a class="reference internal" href="#id5" id="id32">重定向和管道</a></li>
+<li><a class="reference internal" href="#id6" id="id33">尖括号用法收集</a><ul>
+<li><a class="reference internal" href="#id7" id="id34">流重定向</a></li>
+<li><a class="reference internal" href="#here-docement" id="id35">here-docement</a></li>
+<li><a class="reference internal" href="#id8" id="id36">从变量中读取信息</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id9" id="id37">字符串截取</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11" id="id38">性能调优</a></li>
+<li><a class="reference internal" href="#id12" id="id39">常用命令</a><ul>
+<li><a class="reference internal" href="#nc" id="id40">nc</a></li>
+<li><a class="reference internal" href="#apt-get" id="id41">apt-get</a></li>
+<li><a class="reference internal" href="#awk" id="id42">awk</a></li>
+<li><a class="reference internal" href="#cut" id="id43">cut</a></li>
+<li><a class="reference internal" href="#dpkg" id="id44">dpkg</a></li>
+<li><a class="reference internal" href="#wget" id="id45">wget</a></li>
+<li><a class="reference internal" href="#scp-rsync" id="id46">scp/rsync</a></li>
+<li><a class="reference internal" href="#ssh" id="id47">ssh</a></li>
+<li><a class="reference internal" href="#sed" id="id48">sed</a></li>
+<li><a class="reference internal" href="#route" id="id49">route</a></li>
+<li><a class="reference internal" href="#ps" id="id50">ps</a></li>
+<li><a class="reference internal" href="#df-du" id="id51">df/du</a></li>
+<li><a class="reference internal" href="#find" id="id52">find</a></li>
+<li><a class="reference internal" href="#locate-updatedb" id="id53">locate/updatedb</a></li>
+<li><a class="reference internal" href="#xargs" id="id54">xargs</a></li>
+<li><a class="reference internal" href="#lsof" id="id55">lsof</a></li>
+<li><a class="reference internal" href="#netstat" id="id56">netstat</a></li>
+<li><a class="reference internal" href="#nmap" id="id57">nmap</a></li>
+<li><a class="reference internal" href="#ss" id="id58">ss</a></li>
+<li><a class="reference internal" href="#ln-unlink" id="id59">ln/unlink</a></li>
+<li><a class="reference internal" href="#grep" id="id60">grep</a></li>
+<li><a class="reference internal" href="#pgrep" id="id61">pgrep</a></li>
+<li><a class="reference internal" href="#pkill" id="id62">pkill</a></li>
+<li><a class="reference internal" href="#tar" id="id63">tar</a></li>
+<li><a class="reference internal" href="#crontab" id="id64">crontab</a></li>
+<li><a class="reference internal" href="#id20" id="id65">系统和内核信息</a></li>
+<li><a class="reference internal" href="#id21" id="id66">查看系统启动服务</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#linux" id="id67">Linux一行命令汇总</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="bash">
+<h2><a class="toc-backref" href="#id28">4.1. bash快捷键</a><a class="headerlink" href="#bash" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ctrl + a;   定位光标到命令行首
+ctrl + e;   命令行尾
+ctrl + l;   清屏
+!!:1        上一条命令第一个参数
+!$          上一条命令最后一个参数
+ctrl + $;   搜索历史命令
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id29">4.2. bash编程</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><a class="toc-backref" href="#id30">4.2.1. 正则匹配</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /usr/bin
+# 判断变量是否不包含bak字符
+for i in nova-*; do [[ ! $i =~ &quot;bak&quot; ]] &amp;&amp; echo $i ;done
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id31">4.2.2. 特殊字符处理</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>删除文件名包含特殊字符的文件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mv</span> <span class="o">./-</span><span class="n">hl</span> <span class="n">hl</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id32">4.2.3. 重定向和管道</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>我们来建立一个 <code class="docutils literal notranslate"><span class="pre">test_redirect.sh</span></code> 脚本来测试shell输入输出重定向和管道。
+shell 脚本中流重定向方式 <code class="docutils literal notranslate"><span class="pre">&gt;&amp;2</span></code> 参考于 service 命令源码。</p>
+<p><code class="file docutils literal notranslate"><span class="pre">test_redirect.sh</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="n">echo</span> <span class="s2">&quot;stdout info&quot;</span>
+<span class="n">echo</span> <span class="s2">&quot;stdout info-2&quot;</span>
+<span class="n">echo</span> <span class="s2">&quot;stderr info&quot;</span> <span class="o">&gt;&amp;</span><span class="mi">2</span>
+<span class="n">echo</span> <span class="s2">&quot;stderr info-2&quot;</span> <span class="o">&gt;&amp;</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>重定向测试一：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">#</span><span class="c1"># 过滤 stderr 或者过滤 stdout</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">1</span>&gt;/dev/null
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">2</span>&gt;/dev/null
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+
+<span class="gp">#</span><span class="c1"># stdout 和 stderr 重定向</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">1</span>&gt; txt.1
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">2</span>&gt; txt.2
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+
+<span class="gp">root@ubuntu:/smbshare#</span> more txt.1
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+<span class="gp">root@ubuntu:/smbshare#</span> more txt.2
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+
+<span class="gp">#</span><span class="c1"># stdout 和 stderr 重定向到一个文件</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="p">&amp;</span>&gt; txt.3
+<span class="gp">root@ubuntu:/smbshare#</span> more txt.3
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+</pre></div>
+</div>
+<p>重定向测试二：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="m">1</span>&gt;txt.4
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ./test_redirect.sh <span class="m">1</span>&gt;txt.5 <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<span class="gp">root@ubuntu:/smbshare#</span> more txt.5
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+<span class="go">stderr info</span>
+<span class="go">stderr info-2</span>
+<span class="gp">root@ubuntu:/smbshare#</span> more txt.4
+<span class="go">stdout info</span>
+<span class="go">stdout info-2</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id22">
+<a class="reference internal image-reference" href="../_images/redirect_diff.png"><img alt="../_images/redirect_diff.png" src="../_images/redirect_diff.png" style="width: 603.0px; height: 301.0px;" /></a>
+<p class="caption"><span class="caption-text">重定向测试</span></p>
+</div>
+<p>可以看到，重定向顺序不同，结果差别很明显。<strong>因为 shell 从左到右的顺序处理重定向。</strong>
+因此命令 <code class="docutils literal notranslate"><span class="pre">./test_redirect.sh</span> <span class="pre">1&gt;txt.5</span> <span class="pre">2&gt;&amp;1</span></code> 将标准输出和标准错误都重定向到文件 txt.5(
+先将标准输出重定向到文件 txt.5 ，然后标准错误重定向到标准输出既 txt.5)；
+而命令 <code class="docutils literal notranslate"><span class="pre">./test_redirect.sh</span> <span class="pre">2&gt;&amp;1</span> <span class="pre">1&gt;txt.4</span></code> 先将标准错误重定向到标准输出(此时是终端)，
+然后将标准输出重定向到文件 txt.4 ；而标准错误目的地依然是终端。</p>
+<p>管道测试一：</p>
+<div class="figure align-center" id="id23">
+<a class="reference internal image-reference" href="../_images/grep_stdout.png"><img alt="../_images/grep_stdout.png" src="../_images/grep_stdout.png" style="width: 575.0px; height: 149.0px;" /></a>
+<p class="caption"><span class="caption-text">管道测试</span></p>
+</div>
+<p><strong>根据grep高亮显示可以知道，默认情况下只有 stdout (标准输出流)重定向到管道；
+标准错误流没有重定向到管道。</strong></p>
+<p>管道测试二：</p>
+<div class="figure align-center" id="id24">
+<a class="reference internal image-reference" href="../_images/grep_and_pipe.png"><img alt="../_images/grep_and_pipe.png" src="../_images/grep_and_pipe.png" style="width: 624.0px; height: 233.0px;" /></a>
+<p class="caption"><span class="caption-text">重定向和管道测试</span></p>
+</div>
+<p><strong>根据搜索结果，可以看到，shell 先处理重定向，然后处理管道。因此，grep可以搜索到
+stderr info信息(标准错误重定向到标准输入而来)。</strong></p>
+</div>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id33">4.2.4. 尖括号用法收集</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>bash编程中自己遇到的尖括号用法汇总。</p>
+<div class="section" id="id7">
+<h4><a class="toc-backref" href="#id34">流重定向</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>流重定向的尖括号的用法包括：</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">&lt;</span></code>，输入重定向；</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;</span></code>，输出重定向；</li>
+<li><code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code>，追加重定向；</li>
+</ul>
+<p>更多细节可以参考上一节。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># 逐行读取并处理文件
+while read line
+do
+    echo $line
+done &lt; /etc/passwd
+</pre></div>
+</div>
+</div>
+<div class="section" id="here-docement">
+<h4><a class="toc-backref" href="#id35">here-docement</a><a class="headerlink" href="#here-docement" title="Permalink to this headline">¶</a></h4>
+<p>有两种具体用法：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># here-document
+cat&lt;&lt; EOF &gt; /smbshare/5.txt
+Here document
+    test,
+  bye!
+EOF
+
+# here-document，结果会删除每行行首的tab，空格不会删除！
+cat&lt;&lt;- EOF &gt; /smbshare/6.txt
+            Here document
+                test,
+      bye!
+EOF
+</pre></div>
+</div>
+<div class="figure align-center" id="id25">
+<a class="reference internal image-reference" href="../_images/here_docment_1.png"><img alt="../_images/here_docment_1.png" src="../_images/here_docment_1.png" style="width: 738.0px; height: 339.0px;" /></a>
+<p class="caption"><span class="caption-text">here-docement 结果测试</span></p>
+</div>
+<p>可以看到，<code class="docutils literal notranslate"><span class="pre">&lt;&lt;-</span></code> 形式的 here-docement，结果会删除行首的 tab；而 <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> 形式的则不会。</p>
+</div>
+<div class="section" id="id8">
+<h4><a class="toc-backref" href="#id36">从变量中读取信息</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># 从变量读取信息到arr数组
+# read 命令设置 IFS 值不会改变整个shell环境的IFS值。
+unset arr
+line=`head -1 /etc/passwd`
+line=$(head -1 /etc/passwd)
+IFS=: read -a arr &lt;&lt;&lt; $line
+set | grep arr
+</pre></div>
+</div>
+<div class="figure align-center" id="id26">
+<a class="reference internal image-reference" href="../_images/san_zjkh.png"><img alt="../_images/san_zjkh.png" src="../_images/san_zjkh.png" style="width: 828.0px; height: 283.0px;" /></a>
+<p class="caption"><span class="caption-text">重定向和管道测试</span></p>
+</div>
+<p>我们利用 <code class="docutils literal notranslate"><span class="pre">&lt;&lt;&lt;</span></code> 符号，从 $line 变量读取信息，设置 IFS 分隔符，
+把读取的变量信息存入 arr 数组。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id37">4.2.5. 字符串截取</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>url=&#39;http://10.10.10.10:35357/v2.0&#39;
+# 从最左边开始删除
+echo ${SERVICE_ENDPOINT#*//}
+#
+echo ${SERVICE_ENDPOINT##*/}
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="http://www.linuxidc.com/Linux/2015-03/115198.htm">http://www.linuxidc.com/Linux/2015-03/115198.htm</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id11">
+<h2><a class="toc-backref" href="#id38">4.3. 性能调优</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>释放缓存：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="mi">3</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">vm</span><span class="o">/</span><span class="n">drop_caches</span>
+</pre></div>
+</div>
+<p>查看内存使用：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">free</span> <span class="o">-</span><span class="n">hl</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h2><a class="toc-backref" href="#id39">4.4. 常用命令</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>常用命令常用用法参考!</p>
+<div class="section" id="nc">
+<h3><a class="toc-backref" href="#id40">4.4.1. nc</a><a class="headerlink" href="#nc" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">传输目录</p>
+<p>server端：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">cvf</span> <span class="o">-</span> <span class="n">allinone</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="mi">5</span><span class="o">-</span><span class="n">install</span><span class="o">-</span><span class="n">script</span> <span class="o">|</span> <span class="n">nc</span> <span class="o">-</span><span class="n">l</span> <span class="mi">12345</span>
+</pre></div>
+</div>
+<p>client端：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">n</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">159.146</span> <span class="mi">12345</span> <span class="o">|</span> <span class="n">tar</span> <span class="o">-</span><span class="n">xvf</span> <span class="o">-</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">传输文件</p>
+<p>server端：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">l</span> <span class="mi">12345</span> <span class="o">&lt;</span> <span class="n">file</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>client端：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">n</span> <span class="mf">172.31</span><span class="o">.</span><span class="mf">100.7</span> <span class="mi">12345</span> <span class="o">&gt;</span> <span class="n">file</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>然后两端分别使用md5sum命令核对文件传输是否出错.</p>
+<ul>
+<li><p class="first">扫描端口</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nc</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">w</span> <span class="mi">1</span> <span class="mf">10.11</span><span class="o">.</span><span class="mf">111.50</span> <span class="o">-</span><span class="n">z</span> <span class="mi">1</span><span class="o">-</span><span class="mi">1000</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="apt-get">
+<h3><a class="toc-backref" href="#id41">4.4.2. apt-get</a><a class="headerlink" href="#apt-get" title="Permalink to this headline">¶</a></h3>
+<p>只获取包，不安装：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 如果软件包没有安装</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="o">-</span><span class="n">d</span> <span class="n">install</span> <span class="n">git</span>
+<span class="c1"># 如果已经安装</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="o">-</span><span class="n">d</span> <span class="n">install</span> <span class="n">git</span> <span class="o">--</span><span class="n">reinstall</span>
+</pre></div>
+</div>
+<p>更新安装包索引：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">update</span>
+</pre></div>
+</div>
+<p>升级已经安装的所有软件包：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>搜索包：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">cache</span> <span class="n">search</span> <span class="n">lvm</span>
+<span class="n">apt</span><span class="o">-</span><span class="n">cache</span> <span class="n">search</span> <span class="n">cifs</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">i</span> <span class="n">cifs</span>
+</pre></div>
+</div>
+<p>获取包的相关信息：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">cache</span> <span class="n">show</span> <span class="n">lvm2</span>
+</pre></div>
+</div>
+<p>安装特定版本：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="o">--</span><span class="n">reinstall</span> <span class="n">install</span> <span class="n">neutron</span><span class="o">-</span><span class="n">common</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mf">2014.1</span><span class="o">.</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="n">ubuntu1</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><a class="reference external" href="http://os.51cto.com/art/200802/65583.htm">http://os.51cto.com/art/200802/65583.htm</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><a class="reference external" href="http://wiki.ubuntu.org.cn/Apt%E5%92%8Cdpkg%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83">http://wiki.ubuntu.org.cn/Apt%E5%92%8Cdpkg%E5%BF%AB%E9%80%9F%E5%8F%82%E8%80%83</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="awk">
+<h3><a class="toc-backref" href="#id42">4.4.3. awk</a><a class="headerlink" href="#awk" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">awk</span> <span class="o">-</span><span class="n">v</span> <span class="n">FS</span><span class="o">=</span><span class="s1">&#39;:&#39;</span> <span class="s1">&#39;{print $1}&#39;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">passwd</span>
+<span class="c1"># 打印某一行, 自设定分隔符</span>
+<span class="n">awk</span> <span class="o">-</span><span class="n">F</span><span class="p">:</span> <span class="s1">&#39;{print $1}&#39;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">passwd</span>
+<span class="c1"># 打印除第一行之外的所有行</span>
+<span class="n">awk</span> <span class="s1">&#39;{$1=&quot;&quot;;print $0}&#39;</span> <span class="n">file</span>
+<span class="c1"># 循环把前N列都赋值为空，从第n+1列开始打印所有的列！</span>
+<span class="n">awk</span> <span class="s1">&#39;{ for(i=1; i&lt;=n; i++){ $i=&quot;&quot; }; print $0 }&#39;</span> <span class="n">urfile</span>
+
+<span class="c1"># 以tab分隔符切割记录，输出也以tab作为分隔符。选择第二个字段为GET的记录！</span>
+<span class="n">awk</span> <span class="o">-</span><span class="n">F</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="o">-</span><span class="n">vOFS</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span> <span class="s1">&#39;{if ($2==&quot;GET&quot;) print $1, $3}&#39;</span> <span class="n">ceph_meter</span><span class="o">.</span><span class="n">txt</span> <span class="o">&gt;</span> <span class="n">ceph_meter_get</span><span class="o">.</span><span class="n">txt</span>
+
+<span class="c1"># 打印每一行记录长度</span>
+<span class="n">awk</span> <span class="s1">&#39;{print length}&#39;</span> <span class="n">df</span><span class="o">.</span><span class="n">txt</span>
+<span class="c1"># 打印前两行记录长度</span>
+<span class="n">awk</span> <span class="s1">&#39;NR&lt;=2{print length}&#39;</span> <span class="n">df</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td>对awk入门有很精彩的描述。<a class="reference external" href="http://www.zsythink.net/archives/1336">http://www.zsythink.net/archives/1336</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cut">
+<h3><a class="toc-backref" href="#id43">4.4.4. cut</a><a class="headerlink" href="#cut" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">echo</span> <span class="s2">&quot;test/dev/mapper/juno&quot;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;/&#39;</span> <span class="o">-</span><span class="n">f1</span>
+<span class="c1">#test</span>
+<span class="n">echo</span> <span class="s2">&quot;test/dev/mapper/juno&quot;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;/&#39;</span> <span class="o">-</span><span class="n">f2</span>
+<span class="c1">#dev</span>
+<span class="n">echo</span> <span class="s2">&quot;test/dev/mapper/juno&quot;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;/&#39;</span> <span class="o">-</span><span class="n">f2</span><span class="o">-</span>
+<span class="c1">#dev/mapper/juno</span>
+<span class="n">echo</span> <span class="s2">&quot;/dev/mapper/juno&quot;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;/&#39;</span> <span class="o">-</span><span class="n">f1</span>
+<span class="c1">#</span>
+<span class="n">echo</span> <span class="s2">&quot;/dev/mapper/juno&quot;</span> <span class="o">|</span> <span class="n">cut</span> <span class="o">-</span><span class="n">d</span> <span class="s1">&#39;/&#39;</span> <span class="o">-</span><span class="n">f2</span>
+<span class="c1">#dev</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id16" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><a class="reference external" href="http://www.jb51.net/article/41872.htm">http://www.jb51.net/article/41872.htm</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="dpkg">
+<h3><a class="toc-backref" href="#id44">4.4.5. dpkg</a><a class="headerlink" href="#dpkg" title="Permalink to this headline">¶</a></h3>
+<p>查看某软件包是否安装，这两条都可以：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpkg</span> <span class="o">-</span><span class="n">s</span> <span class="n">lvm2</span>
+<span class="n">dpkg</span><span class="o">-</span><span class="n">query</span> <span class="o">-</span><span class="n">l</span> <span class="n">lvm</span>
+</pre></div>
+</div>
+<p>列出所有安装软件包：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpkg</span> <span class="o">--</span><span class="n">get</span><span class="o">-</span><span class="n">selections</span>
+<span class="n">dpkg</span> <span class="o">-</span><span class="n">l</span>
+</pre></div>
+</div>
+<p>列出软件包中所有文件位置：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpkg</span> <span class="o">-</span><span class="n">L</span> <span class="n">lvm2</span>
+</pre></div>
+</div>
+<p>手动安装deb包：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpkg</span> <span class="o">-</span><span class="n">i</span> <span class="n">neutron</span><span class="o">-</span><span class="n">metering</span><span class="o">-</span><span class="n">agent_2014</span><span class="o">.</span><span class="mf">2.1</span><span class="o">-</span><span class="mi">0</span><span class="n">ubuntu1</span><span class="o">-</span><span class="n">cloud0_all</span><span class="o">.</span><span class="n">deb</span>
+</pre></div>
+</div>
+<p>查看deb包文件内容：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dpkg</span> <span class="o">-</span><span class="n">c</span> <span class="n">neutron</span><span class="o">-</span><span class="n">metering</span><span class="o">-</span><span class="n">agent_2014</span><span class="o">.</span><span class="mf">2.1</span><span class="o">.</span><span class="n">deb</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="wget">
+<h3><a class="toc-backref" href="#id45">4.4.6. wget</a><a class="headerlink" href="#wget" title="Permalink to this headline">¶</a></h3>
+<p>下载网站的整个目录，以供离线浏览：</p>
+<div class="code shell highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="o">-</span><span class="n">c</span> <span class="o">-</span><span class="n">r</span> <span class="o">-</span><span class="n">np</span> <span class="o">-</span><span class="n">k</span> <span class="o">-</span><span class="n">L</span> <span class="o">-</span><span class="n">p</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">docs</span><span class="o">.</span><span class="n">ceph</span><span class="o">.</span><span class="n">org</span><span class="o">.</span><span class="n">cn</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scp-rsync">
+<h3><a class="toc-backref" href="#id46">4.4.7. scp/rsync</a><a class="headerlink" href="#scp-rsync" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 远程拷贝文件</span>
+<span class="n">scp</span> <span class="n">root</span><span class="nd">@10</span><span class="o">.</span><span class="mf">11.113</span><span class="o">.</span><span class="mi">198</span><span class="p">:</span><span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">win7</span><span class="o">.</span><span class="n">raw</span> <span class="o">.</span>
+<span class="c1"># 远程拷贝目录</span>
+<span class="n">scp</span> <span class="o">-</span><span class="n">r</span> <span class="n">root</span><span class="nd">@10</span><span class="o">.</span><span class="mf">11.113</span><span class="o">.</span><span class="mi">198</span><span class="p">:</span><span class="o">/</span><span class="n">smbshare</span><span class="o">/</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>rsync 命令是一个远程同步工具，也可以用来拷贝远程文件, 比如openstack虚机冷迁移都是通过该命令，来拷贝虚机磁盘文件的：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rsync</span> <span class="o">-</span><span class="n">av</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">coremail</span><span class="o">/</span> <span class="mf">192.168</span><span class="o">.</span><span class="mf">11.12</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">coremail</span><span class="o">/</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id17" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td><a class="reference external" href="http://coolnull.com/1899.html">http://coolnull.com/1899.html</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ssh">
+<h3><a class="toc-backref" href="#id47">4.4.8. ssh</a><a class="headerlink" href="#ssh" title="Permalink to this headline">¶</a></h3>
+<p>原来以为ssh是一个远程登录工具，实际上ssh还可以执行远程主机上的命令，结果输出到本地。</p>
+<p>这种方式，也是从openstack nova项目源码学习到的。</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">root@ubuntu:/smbshare#</span> nova -h
+<span class="go">The program &#39;nova&#39; is currently not installed. You can install it by typing:</span>
+<span class="go">apt-get install python-novaclient</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ssh root@192.168.159.155 nova -h
+<span class="go">root@192.168.159.155&#39;s password:</span>
+<span class="go">usage: nova [--version] [--debug] [--os-cache] [--timings]</span>
+<span class="go">            [--timeout &lt;seconds&gt;] [--os-auth-token OS_AUTH_TOKEN]</span>
+<span class="go">            [--os-username &lt;auth-user-name&gt;] [--os-user-id &lt;auth-user-id&gt;]</span>
+<span class="go">            [--os-password &lt;auth-password&gt;]</span>
+<span class="go">            [--os-tenant-name &lt;auth-tenant-name&gt;]</span>
+<span class="go">            [--os-tenant-id &lt;auth-tenant-id&gt;] [--os-auth-url &lt;auth-url&gt;]</span>
+<span class="go">            [--os-region-name &lt;region-name&gt;] [--os-auth-system &lt;auth-system&gt;]</span>
+<span class="go">            [--service-type &lt;service-type&gt;] [--service-name &lt;service-name&gt;]</span>
+<span class="go">            [--volume-service-name &lt;volume-service-name&gt;]</span>
+<span class="go">            [--endpoint-type &lt;endpoint-type&gt;]</span>
+<span class="go">            [--os-compute-api-version &lt;compute-api-ver&gt;]</span>
+<span class="go">            [--os-cacert &lt;ca-certificate&gt;] [--insecure]</span>
+<span class="go">            [--bypass-url &lt;bypass-url&gt;]</span>
+<span class="go">            &lt;subcommand&gt; ...</span>
+
+<span class="go">Command-line interface to the OpenStack Nova API.</span>
+<span class="go">.....</span>
+<span class="gp">root@ubuntu:/smbshare#</span> ssh <span class="m">192</span>.168.159.155 <span class="s1">&#39;nova -h | grep list&#39;</span>
+<span class="go">root@192.168.159.155&#39;s password:</span>
+<span class="go">    absolute-limits             Print a list of absolute limits for a user</span>
+<span class="go">    agent-list                  List all builds.</span>
+<span class="go">    aggregate-list              Print a list of all aggregates.</span>
+<span class="go">    availability-zone-list      List all the availability zones.</span>
+<span class="go">    cloudpipe-list              Print a list of all cloudpipe instances.</span>
+<span class="go">    dns-domains                 Print a list of available dns domains.</span>
+<span class="go">    dns-list                    List current DNS entries for domain and ip or</span>
+<span class="go">    flavor-access-list          Print access information about the given</span>
+<span class="go">    flavor-list                 Print a list of available &#39;flavors&#39; (sizes of</span>
+<span class="go">    floating-ip-bulk-list       List all floating ips.</span>
+<span class="go">    floating-ip-list            List floating ips.</span>
+<span class="go">    floating-ip-pool-list       List all floating ip pools.</span>
+<span class="go">    host-list                   List all hosts by service.</span>
+<span class="go">    hypervisor-list             List hypervisors.</span>
+<span class="go">    image-list                  Print a list of available images to boot from.</span>
+<span class="go">    interface-list              List interfaces attached to a server.</span>
+<span class="go">    keypair-list                Print a list of keypairs for a user</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sed">
+<h3><a class="toc-backref" href="#id48">4.4.9. sed</a><a class="headerlink" href="#sed" title="Permalink to this headline">¶</a></h3>
+<p>修改文件某一行：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 终端显示修改后的结果</span>
+<span class="n">sed</span> <span class="s2">&quot;s/&#39;metering&#39;,/&#39;metering&#39;,&#39;instances_monitor&#39;/g&quot;</span> <span class="n">txt</span>
+<span class="c1"># 直接修改原文件</span>
+<span class="n">sed</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;26s/&#39;metering&#39;,/&#39;metering&#39;,&#39;instances_monitor&#39;/g&quot;</span> <span class="n">dashboard</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="route">
+<h3><a class="toc-backref" href="#id49">4.4.10. route</a><a class="headerlink" href="#route" title="Permalink to this headline">¶</a></h3>
+<p>添加路由：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">route</span> <span class="n">add</span> <span class="o">-</span><span class="n">net</span> <span class="mf">224.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">netmask</span> <span class="mf">240.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">dev</span> <span class="n">eth0</span>
+</pre></div>
+</div>
+<p>删除路由：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">route</span> <span class="k">del</span> <span class="o">-</span><span class="n">net</span> <span class="mf">224.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">netmask</span> <span class="mf">240.0</span><span class="o">.</span><span class="mf">0.0</span>
+<span class="n">route</span> <span class="k">del</span> <span class="o">-</span><span class="n">net</span> <span class="mf">224.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">netmask</span> <span class="mf">240.0</span><span class="o">.</span><span class="mf">0.0</span> <span class="n">reject</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ps">
+<h3><a class="toc-backref" href="#id50">4.4.11. ps</a><a class="headerlink" href="#ps" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 批量杀死进程：</span>
+<span class="n">ps</span> <span class="o">-</span><span class="n">aux</span><span class="o">|</span><span class="n">grep</span> <span class="n">name</span><span class="o">|</span><span class="n">grep</span> <span class="o">-</span><span class="n">v</span> <span class="n">grep</span><span class="o">|</span><span class="n">cut</span> <span class="o">-</span><span class="n">c</span> <span class="mi">9</span><span class="o">-</span><span class="mi">15</span><span class="o">|</span><span class="n">xargs</span> <span class="n">kill</span> <span class="o">-</span><span class="mi">9</span>
+<span class="c1"># 显示进程的父子关系</span>
+<span class="n">ps</span> <span class="n">afx</span> <span class="o">-</span><span class="n">o</span> <span class="n">pid</span><span class="p">,</span><span class="n">cmd</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span>
+<span class="c1"># 查看某bash的进程树</span>
+<span class="n">ps</span> <span class="n">f</span>
+<span class="n">ps</span> <span class="n">f</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="df-du">
+<h3><a class="toc-backref" href="#id51">4.4.12. df/du</a><a class="headerlink" href="#df-du" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">-</span><span class="n">hl</span>
+<span class="n">du</span> <span class="o">-</span><span class="n">hd1</span>
+<span class="c1"># 列出某个文件或目录占用的空间</span>
+<span class="n">du</span> <span class="o">-</span><span class="n">sh</span> <span class="nb">dir</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="find">
+<h3><a class="toc-backref" href="#id52">4.4.13. find</a><a class="headerlink" href="#find" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">find</span> <span class="o">.</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="s2">&quot;*.py&quot;</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">egrep</span> <span class="s2">&quot;xxx&quot;</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id18" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td><a class="reference external" href="http://yansu.org/2014/01/15/general-shell-resources.html">http://yansu.org/2014/01/15/general-shell-resources.html</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="locate-updatedb">
+<h3><a class="toc-backref" href="#id53">4.4.14. locate/updatedb</a><a class="headerlink" href="#locate-updatedb" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">updatedb</span>
+<span class="c1"># 以下两条命令等效</span>
+<span class="n">locate</span> <span class="o">.</span><span class="n">git</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">P</span> <span class="s2">&quot;.git$&quot;</span>
+<span class="n">locate</span> <span class="o">-</span><span class="n">b</span> <span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="xargs">
+<h3><a class="toc-backref" href="#id54">4.4.15. xargs</a><a class="headerlink" href="#xargs" title="Permalink to this headline">¶</a></h3>
+<p>xargs和重定向的区别，网上有很多论述。可以通过一个例子来简单理解下：</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">root@ubuntu:/smbshare/MyBlogs#</span> <span class="nb">echo</span> <span class="s1">&#39;--help&#39;</span> <span class="p">|</span> xargs cat
+<span class="go">Usage: cat [OPTION]... [FILE]...</span>
+<span class="go">Concatenate FILE(s), or standard input, to standard output.</span>
+
+<span class="go">  -A, --show-all           equivalent to -vET</span>
+<span class="go">  -b, --number-nonblank    number nonempty output lines, overrides -n</span>
+<span class="go">  -e                       equivalent to -vE</span>
+<span class="go">  -E, --show-ends          display $ at end of each line</span>
+<span class="go">  -n, --number             number all output lines</span>
+<span class="go">  -s, --squeeze-blank      suppress repeated empty output lines</span>
+<span class="go">  -t                       equivalent to -vT</span>
+<span class="go">  -T, --show-tabs          display TAB characters as ^I</span>
+<span class="go">  -u                       (ignored)</span>
+<span class="go">  -v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB</span>
+<span class="go">      --help     display this help and exit</span>
+<span class="go">      --version  output version information and exit</span>
+
+<span class="go">With no FILE, or when FILE is -, read standard input.</span>
+
+<span class="go">Examples:</span>
+<span class="go">  cat f - g  Output f&#39;s contents, then standard input, then g&#39;s contents.</span>
+<span class="go">  cat        Copy standard input to standard output.</span>
+
+<span class="go">Report cat bugs to bug-coreutils@gnu.org</span>
+<span class="go">GNU coreutils home page: &lt;http://www.gnu.org/software/coreutils/&gt;</span>
+<span class="go">General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;</span>
+<span class="go">For complete documentation, run: info coreutils &#39;cat invocation&#39;</span>
+<span class="gp">root@ubuntu:/smbshare/MyBlogs#</span> <span class="nb">echo</span> <span class="s1">&#39;--help&#39;</span> <span class="p">|</span> cat
+<span class="go">--help</span>
+</pre></div>
+</div>
+<p>输出结果一目了然，对于xargs，是将echo的输出”–help”当做cat命令的参数；
+而重定向符合则是将输出当初cat命令的输入。差别还是很明显的。</p>
+<p>来看其他几个例子，来理解下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">find</span> <span class="o">.</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="s2">&quot;*.py&quot;</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">chmod</span> <span class="mi">666</span>
+<span class="n">find</span> <span class="o">.</span> <span class="o">-</span><span class="nb">type</span> <span class="n">f</span> <span class="o">-</span><span class="n">name</span> <span class="s2">&quot;*.sh&quot;</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">chmod</span> <span class="o">+</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>xargs命令还有很多其他高级用法，可以参考man文档。</p>
+</div>
+<div class="section" id="lsof">
+<h3><a class="toc-backref" href="#id55">4.4.16. lsof</a><a class="headerlink" href="#lsof" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 不带任何参数，则输出所有活跃进程的所有打开文件</span>
+<span class="n">lsof</span>
+
+<span class="c1"># 获取网络连接信息</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span> <span class="n">tcp</span>
+
+<span class="c1"># 查看某端口的文件信息</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span> <span class="p">:</span><span class="mi">5000</span>
+
+<span class="c1"># 查看文件别哪些进程打开</span>
+<span class="n">lsof</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">csq</span><span class="o">.</span><span class="n">log</span>
+
+<span class="c1"># 查看进程打开哪些文件</span>
+<span class="n">ps</span> <span class="o">-</span><span class="n">ef</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span><span class="o">-</span><span class="n">sch</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">p</span> <span class="n">pid</span>
+
+<span class="c1"># 获取网络连接，查看所有的监听套接字和已连接套接字</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">P</span> <span class="o">-</span><span class="n">n</span>
+
+<span class="c1"># 其他</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span><span class="nd">@192</span><span class="o">.</span><span class="mf">168.159</span><span class="o">.</span><span class="mi">1</span> <span class="o">-</span><span class="n">P</span> <span class="o">-</span><span class="n">n</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">i</span><span class="nd">@192</span><span class="o">.</span><span class="mf">168.159</span><span class="o">.</span><span class="mi">1</span><span class="p">:</span><span class="mi">22</span> <span class="o">-</span><span class="n">P</span> <span class="o">-</span><span class="n">n</span>
+
+<span class="c1"># 列出rabbitmq用户的所有网络连接！</span>
+<span class="c1"># lsof 命令选项组合一般是或关系，所以需要使用 -a 选项变成 and关系！</span>
+<span class="n">ps</span> <span class="o">-</span><span class="n">ef</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">rabbit</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">u</span> <span class="n">rabbitmq</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">P</span> <span class="o">-</span><span class="n">n</span>
+
+<span class="c1"># 列出某进程的所有网络连接</span>
+<span class="n">lsof</span> <span class="o">-</span><span class="n">p</span> <span class="o">&lt;</span><span class="n">pid</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="n">P</span> <span class="o">-</span><span class="n">n</span>
+</pre></div>
+</div>
+<p>这里需要解释下，服务端调用listen后，返回的是 <strong>监听套接字</strong> ，然后客户端主动发起connect连接，
+服务端accept后，返回 <strong>已连接套接字</strong> 。两者都可以通过lsof命令列出来！</p>
+<p>lsof 还有很多其他的高级用法，可以参考：</p>
+<table class="docutils footnote" frame="void" id="id19" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[8]</td><td><a class="reference external" href="https://linux.cn/article-4099-1.html">https://linux.cn/article-4099-1.html</a></td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="netstat">
+<h3><a class="toc-backref" href="#id56">4.4.17. netstat</a><a class="headerlink" href="#netstat" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="nmap">
+<h3><a class="toc-backref" href="#id57">4.4.18. nmap</a><a class="headerlink" href="#nmap" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ss">
+<h3><a class="toc-backref" href="#id58">4.4.19. ss</a><a class="headerlink" href="#ss" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ln-unlink">
+<h3><a class="toc-backref" href="#id59">4.4.20. ln/unlink</a><a class="headerlink" href="#ln-unlink" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 建立硬链接</span>
+<span class="n">ln</span> <span class="n">srcfile</span> <span class="n">dstfile</span>
+<span class="c1"># 建立软连接</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="n">srcfile</span> <span class="n">dstfile</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="n">pydist</span>
+
+<span class="c1"># 显示软硬连接文件详情和区别、inode节点数！</span>
+<span class="n">ll</span> <span class="n">tf</span><span class="o">-*</span> <span class="o">-</span><span class="n">i</span>
+<span class="c1"># 663182 -rw-r--r-- 2 root root  0 Dec  1 06:59 tf-hl</span>
+<span class="c1"># 663237 lrwxrwxrwx 1 root root 13 Dec  1 07:01 tf-sl -&gt; tmp/test-file</span>
+<span class="n">ll</span> <span class="o">-</span><span class="n">i</span> <span class="n">tmp</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">file</span>
+<span class="c1"># 663182 -rw-r--r-- 2 root root 0 Dec  1 06:59 tmp/test-file</span>
+</pre></div>
+</div>
+<p>ln命令需要特别注意如下几点：</p>
+<ul class="simple">
+<li>建立硬链接时拷贝inode节点。硬链接文件是普通文件(文件类型位为 <code class="docutils literal notranslate"><span class="pre">-</span></code> )，永远不要建立目录的硬链接。</li>
+<li>软连接可以连接文件、目录，inode节点数没有增加，文件类型位为 <code class="docutils literal notranslate"><span class="pre">l</span></code> 。</li>
+</ul>
+<p><strong>删除链接文件时要特别注意，可能一不小心，就把链接文件指向的目录下所有内容就删除了。安全起见，
+还是使用unlink命令删除一个链接！</strong></p>
+</div>
+<div class="section" id="grep">
+<h3><a class="toc-backref" href="#id60">4.4.21. grep</a><a class="headerlink" href="#grep" title="Permalink to this headline">¶</a></h3>
+<p>grep命令有很多选项，支持的正则表达式流派也很多。个人对prce流派正则比较熟悉，
+日常中使用也主要是使用 <code class="docutils literal notranslate"><span class="pre">-P</span></code> 选项使用prce模式进行匹配！</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -P: 使用 pcre 模式搜索</span>
+<span class="c1"># -v: 表示搜索不匹配的</span>
+<span class="c1"># -i: 忽略大小写</span>
+<span class="n">git</span> <span class="n">status</span> <span class="o">|</span> <span class="n">grep</span> <span class="o">-</span><span class="n">Pv</span> <span class="s1">&#39;\.pyc$&#39;</span>
+
+<span class="c1"># 使用-b零宽断言搜索整个单词</span>
+<span class="n">grep</span> <span class="o">-</span><span class="n">P</span> <span class="s1">&#39;</span><span class="se">\b</span><span class="s1">MeteringPlugin</span><span class="se">\b</span><span class="s1">&#39;</span> <span class="o">.</span> <span class="o">-</span><span class="n">rn</span>
+
+<span class="c1"># 搜索固定字符串, 否则 + 会被当成元字符</span>
+<span class="n">fgrep</span> <span class="s1">&#39;+++===+++&#39;</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">apache2</span><span class="o">/</span><span class="n">error</span><span class="o">.</span><span class="n">log</span>
+
+<span class="c1"># 递归搜索</span>
+<span class="c1"># -r: 递归搜索，不跟从符号链接！</span>
+<span class="n">fgrep</span> <span class="o">-</span><span class="n">rn</span> <span class="s1">&#39;+++===+++&#39;</span> <span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pgrep">
+<h3><a class="toc-backref" href="#id61">4.4.22. pgrep</a><a class="headerlink" href="#pgrep" title="Permalink to this headline">¶</a></h3>
+<p>搜索进程名称包含 name 的进程；该命令还有其他的选项。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pgrep</span> <span class="n">nova</span><span class="o">-</span><span class="n">scheduler</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pkill">
+<h3><a class="toc-backref" href="#id62">4.4.23. pkill</a><a class="headerlink" href="#pkill" title="Permalink to this headline">¶</a></h3>
+<p>根据 name 名称杀死进程：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pkill</span> <span class="n">nova</span><span class="o">-</span><span class="n">api</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tar">
+<h3><a class="toc-backref" href="#id63">4.4.24. tar</a><a class="headerlink" href="#tar" title="Permalink to this headline">¶</a></h3>
+<p>tar命令笔记常用：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="n">file</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span>
+
+<span class="n">tar</span> <span class="o">-</span><span class="n">xvzf</span> <span class="n">file</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<p>另外，假如tar命令压缩绝对路径文件时，需要特别注意，不能如下面这样：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">a</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">b</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">c</span>
+</pre></div>
+</div>
+<p>上面这条命令本意是，在压缩时，加上全路径，并把压缩文件放在/tmp目录下(至于为什么不先进入/smbshare目录，
+因为我是在某次工作需求中，需要通过程序执行shell命令进行压缩。因此需要使用绝对路径！)</p>
+<p>上述这个命令执行后，压缩文件里，也会把smbshar目录前缀压缩进去。</p>
+<p>正确的命令应该如下，使用 <code class="docutils literal notranslate"><span class="pre">-C</span></code> 选项改变tar命令的临时工作路径：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">file</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">smbshare</span> <span class="n">a</span> <span class="n">b</span> <span class="n">c</span> <span class="n">d</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">czf</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cecgw</span><span class="o">/</span><span class="n">csmp</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">cloudwatch</span><span class="o">/</span><span class="n">filecheck</span><span class="o">/</span><span class="mi">20170908</span><span class="o">-</span><span class="mf">164114.</span><span class="n">tar</span><span class="o">.</span><span class="n">gz</span> <span class="o">-</span><span class="n">C</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cecgw</span><span class="o">/</span><span class="n">csmp</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">cloudwatch</span><span class="o">/</span><span class="n">filecheck</span> <span class="n">call_stack</span><span class="o">.</span><span class="n">log</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span> <span class="n">test_1</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="crontab">
+<h3><a class="toc-backref" href="#id64">4.4.25. crontab</a><a class="headerlink" href="#crontab" title="Permalink to this headline">¶</a></h3>
+<p>准确来说，这并不是一个命令，而是Linux系统的一个定时服务！</p>
+<p>通过编辑/etc/crontab文件，添加如下格式行，然后 <code class="docutils literal notranslate"><span class="pre">service</span> <span class="pre">cron</span> <span class="pre">restart</span></code> 重启cron服务，
+定时任务就可以生效了。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">minute</span> <span class="n">hour</span> <span class="n">day</span> <span class="n">month</span> <span class="n">week</span> <span class="n">user</span> <span class="n">cmd</span>
+</pre></div>
+</div>
+<p>每一列分别表示：分、小时、天、月、星期、用户、定时任务。</p>
+<p>来看一个简单的需求。同事曾经编写的一个服务，总是会过一段时间异常退出，定位了很久无法解决。
+最后要求我能不能用某种方式，定时判断服务是否关闭，如果关闭则重启。</p>
+<p>这里以ssh服务类比为例，来满足这个需求。当然，最正确的方式，肯定是直接debug！</p>
+<p>首先简单写一个脚本，判断ssh服务是否在运行，否则重启服务！</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#! /usr/bin/env bash
+
+num=`netstat -pltna | grep -P :22 | grep ssh | wc -l`
+# 利用ps -ef | grep sshd 命令应该也可以。
+
+#echo &quot;num is, &quot;, $num
+
+if [[ $num -ge 1 ]]; then
+    :
+    #echo &quot;IN IF: num is, &quot;, $num
+else
+    service ssh restart
+fi
+</pre></div>
+</div>
+<p>然后编辑/etc/crontab文件，追加上：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*/</span><span class="mi">30</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="n">root</span> <span class="n">bash</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">ssh_restart</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>然后重启cron服务就可以了。</p>
+</div>
+<div class="section" id="id20">
+<h3><a class="toc-backref" href="#id65">4.4.26. 系统和内核信息</a><a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>可以使用下面的命令</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 查看操作系统发行版信息</span>
+<span class="n">cat</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">issue</span>
+<span class="n">lsb_release</span> <span class="o">-</span><span class="n">a</span>
+
+<span class="c1"># 查看内核信息</span>
+<span class="n">uname</span> <span class="o">-</span><span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id21">
+<h3><a class="toc-backref" href="#id66">4.4.27. 查看系统启动服务</a><a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">initctl</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="linux">
+<h2><a class="toc-backref" href="#id67">4.5. Linux一行命令汇总</a><a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>自己平时日常操作中写的一行命令汇总。由于自己对shell不是特别熟悉，
+可能有些命令效率不是最高的。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 列出目录下大小最大的前15个文件</span>
+<span class="n">ls</span> <span class="o">-</span><span class="n">l</span> <span class="o">|</span> <span class="n">sed</span> <span class="s1">&#39;1d&#39;</span><span class="o">|</span> <span class="n">awk</span> <span class="s1">&#39;{print $5, $NF}&#39;</span><span class="o">|</span><span class="n">sort</span> <span class="o">-</span><span class="n">nr</span><span class="o">|</span> <span class="n">head</span> <span class="o">-</span><span class="mi">15</span> <span class="o">|</span> <span class="n">awk</span> <span class="s1">&#39;{print $NF}&#39;</span> <span class="o">|</span> <span class="n">xargs</span> <span class="n">ls</span> <span class="o">-</span><span class="n">hl</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="disk_note.html" class="btn btn-neutral float-right" title="5. Linux 磁盘和分区" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="use_man_page.html" class="btn btn-neutral float-left" title="3. 善用Linux man page" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ZT
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

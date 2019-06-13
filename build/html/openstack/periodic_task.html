@@ -1,0 +1,729 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>23. OpenStack周期性任务分析 &mdash; openstack 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="24. OpenStack 日志模块分析" href="nova_log.html" />
+    <link rel="prev" title="22. nova rpc服务启动分析" href="nova_rpcserver_start.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> openstack
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../py_doc/index.html">Python Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linux_tools/index.html">Hack Linux</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">OpenStack Note</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="horizon_develop.html">1. Horizon 二次开发指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image-create-guide.html">2. OpenStack镜像制作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_synopsis.html">3. OpenStack 部署实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centos_vm_netconf.html">4. Centos虚拟机联网配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lanch_instance_failure.html">5. OpenStack 启动虚拟机失败分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rabbitmq_doc.html">6. [翻译] rabbitmq教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_cmd.html">7. openstack命令汇总</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kvm_error.html">8. KVM错误问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_middleware.html">9. django中间件和openstack用户重登录分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_workflows_analysis.html">10. [翻译] horizon workflows分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_launch_instance.html">11. horizon启动虚拟机分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-generic_view.html">12. django通用视图：一个小问题引发的思考</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_auth.html">13. Django认证：horizon登录认证解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud_check.html">14. 云平台服务器重启注意事项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paste_webob_routes.html">15. OpenStack REST-API基础：paste/webob/routes库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opengrok_xp.html">16. OpenGrok代码浏览环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_api.html">17. nova-api分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_smd.html">18. [翻译] nova：Services、Managers and Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oslo_cfg.html">19. oslo.config 用法总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kombu.html">20. kombu和消息队列总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openstack_debug.html">21. OpenStack 调试</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_rpcserver_start.html">22. nova rpc服务启动分析</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">23. OpenStack周期性任务分析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">23.1. 阻塞型定时任务</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">23.2. 状态报告和通知型定时任务</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nova_log.html">24. OpenStack 日志模块分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qemu_kvm.html">25. qemu/kvm学习笔记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virt_cmd.html">26. 虚拟化相关命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qemu_img_encry.html">27. nova虚机加密总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_interact.html">28. nova组件间交互总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="juno_neutron-meter-agent_install.html">29. juno安装neutron-meter-agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_interactive.html">30. ceilometer api扩展与horizon前后端交互流程解析</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">网络技术/neutron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/index.html">未分类</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openstack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">OpenStack Note</a> &raquo;</li>
+        
+      <li>23. OpenStack周期性任务分析</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/openstack/periodic_task.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="openstack">
+<span id="periodic-task"></span><h1><a class="toc-backref" href="#id9">23. OpenStack周期性任务分析</a><a class="headerlink" href="#openstack" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#openstack" id="id9">OpenStack周期性任务分析</a><ul>
+<li><a class="reference internal" href="#id2" id="id10">阻塞型定时任务</a></li>
+<li><a class="reference internal" href="#id3" id="id11">状态报告和通知型定时任务</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<p>OpenStack 定时任务实现由两种实现方法，一种是通过 periodic_task 函数装饰器，
+另外一种是由 <code class="xref py py-class docutils literal notranslate"><span class="pre">DynamicLoopingCall</span></code> 和 <code class="xref py py-class docutils literal notranslate"><span class="pre">FixedIntervalLoopingCall</span></code>
+类通过协程来实现。</p>
+<p><strong>这两种定时任务的目的也完全不一样，前者一般都是用来装饰 nova-rpc-server 的
+manager 类方法，用来实现资源定时刷新、状态报告等；后者通过 wait() 调用进行阻
+塞，等待某些某些特定事件发生！</strong></p>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id10">23.1. 阻塞型定时任务</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>对于第二种用法，源码比较简单，主要用到的是 <code class="xref py py-class docutils literal notranslate"><span class="pre">eventlet.event.Event</span></code> 类！让我们
+首先来看看该类的用法。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">eventlet</span> <span class="k">import</span> <span class="n">event</span>
+<span class="kn">import</span> <span class="nn">eventlet</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">evt</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">baz</span><span class="p">(</span><span class="n">b</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s2">&quot;begin sleeping...&quot;</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">evt</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">b</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;awake again!!!&quot;</span>
+
+<span class="n">_</span> <span class="o">=</span> <span class="n">eventlet</span><span class="o">.</span><span class="n">spawn_n</span><span class="p">(</span><span class="n">baz</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">evt</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+<span class="nb">print</span> <span class="s2">&quot;in main&quot;</span>
+</pre></div>
+</div>
+<p>程序运行结果：</p>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/wait_event.png"><img alt="../_images/wait_event.png" src="../_images/wait_event.png" style="width: 695.0px; height: 159.0px;" /></a>
+<p class="caption"><span class="caption-text">测试结果</span></p>
+</div>
+<p>根据官网文档，event和queue差不多，但是有两个不同：</p>
+<ul class="simple">
+<li>调用 send() 不会交出自己的cpu时间</li>
+<li>send() 只能被调用一次</li>
+</ul>
+<p>event主要用于在不同协程间传递返回值。比如我协程A需要等协程B做了某件事后的结
+果，那么我协程A可以建立了一个event evt，然后调用evt.wait()就会开始等待。协程
+B把事情做好后运行evt.send(XXX) [注意，由于都在一个线程中，所以获取这个 evt
+甚至不需要锁]，这个时候协程A的evt.wait()代码就可以往下运行了，并且Hub会把相关的结果给它。</p>
+<p><strong>简言之，Event.wait() 是一个阻塞调用，等待 Event.send() 调用解除阻塞。</strong></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">以上例子，通过 spawn_n() 函数启动一个新协程，但是假如不执行最后
+的 evt.wait()，那么 baz() 函数不会执行，结果没有任何输出。个人猜想
+是，协程是主动让出cpu，假如不执行 evt.wait() 当前程序不会让出cpu，
+那么新开启的协程也就没有机会调度运行。然后程序结束，直接退出，因此
+不会有任何输出。当然，这只是个人猜想，得抽时间，好好熟悉下协程的
+原理！</p>
+</div>
+<p>有了上面的简单例子作为基础后，我们利用 OpenStack 的 <code class="xref py py-class docutils literal notranslate"><span class="pre">FixedIntervalLoopingCall</span></code>
+创建一个定时任务。来看例子：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python2</span>
+
+<span class="c1">#from nova import utils</span>
+<span class="kn">from</span> <span class="nn">nova.openstack.common.loopingcall</span> <span class="k">import</span> <span class="n">FixedIntervalLoopingCall</span>
+<span class="kn">from</span> <span class="nn">nova.openstack.common.loopingcall</span> <span class="k">import</span> <span class="n">LoopingCallDone</span>
+<span class="c1">#import inspect</span>
+<span class="kn">import</span> <span class="nn">eventlet</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">panda</span><span class="p">(</span><span class="n">tagline</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">count</span>
+    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span> <span class="s2">&quot;#&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">,</span> <span class="s2">&quot;Panda.&quot;</span><span class="p">,</span> <span class="n">tagline</span>
+    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1">#raise utils.LoopingCallDone</span>
+        <span class="nb">print</span> <span class="s2">&quot;Looping call Done, bye...&quot;</span>
+        <span class="k">raise</span> <span class="n">LoopingCallDone</span>
+
+<span class="n">periodic</span> <span class="o">=</span> <span class="n">FixedIntervalLoopingCall</span><span class="p">(</span><span class="n">panda</span><span class="p">,</span> <span class="s2">&quot;hello world!&quot;</span><span class="p">)</span>
+<span class="c1">#periodic.start(interval=0.8753)</span>
+<span class="n">periodic</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">periodic</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>来看看程序运行结果：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@allinone</span><span class="o">-</span><span class="n">v2</span><span class="p">:</span><span class="o">/</span><span class="n">smbshare</span><span class="c1"># python periodic_fun.py</span>
+<span class="c1"># 1 Panda. hello world!</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">24</span> <span class="mi">23</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mf">33.346</span> <span class="mi">10839</span> <span class="n">WARNING</span> <span class="n">nova</span><span class="o">.</span><span class="n">openstack</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">loopingcall</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="n">task</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">panda</span> <span class="n">at</span> <span class="mh">0x7f5c5e2ac578</span><span class="o">&gt;</span> <span class="n">run</span> <span class="n">outlasted</span> <span class="n">interval</span> <span class="n">by</span> <span class="mf">1.00</span> <span class="n">sec</span>
+<span class="c1"># 2 Panda. hello world!</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">24</span> <span class="mi">23</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mf">35.351</span> <span class="mi">10839</span> <span class="n">WARNING</span> <span class="n">nova</span><span class="o">.</span><span class="n">openstack</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">loopingcall</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="n">task</span> <span class="o">&lt;</span><span class="n">function</span> <span class="n">panda</span> <span class="n">at</span> <span class="mh">0x7f5c5e2ac578</span><span class="o">&gt;</span> <span class="n">run</span> <span class="n">outlasted</span> <span class="n">interval</span> <span class="n">by</span> <span class="mf">1.00</span> <span class="n">sec</span>
+<span class="c1"># 3 Panda. hello world!</span>
+<span class="n">Looping</span> <span class="n">call</span> <span class="n">Done</span><span class="p">,</span> <span class="n">bye</span><span class="o">...</span>
+</pre></div>
+</div>
+<p>在程序中，我们设置定时任务执行三次。现在根据这个例子，来
+分析下 <code class="xref py py-class docutils literal notranslate"><span class="pre">FixedIntervalLoopingCall</span></code> 的源码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LoopingCallBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kw</span> <span class="o">=</span> <span class="n">kw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">FixedIntervalLoopingCall</span><span class="p">(</span><span class="n">LoopingCallBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A fixed interval looping call.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval</span><span class="p">,</span> <span class="n">initial_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">done</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">_inner</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">initial_delay</span><span class="p">:</span>
+                <span class="n">greenthread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">initial_delay</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
+                    <span class="n">start</span> <span class="o">=</span> <span class="n">_ts</span><span class="p">()</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kw</span><span class="p">)</span>
+                    <span class="n">end</span> <span class="o">=</span> <span class="n">_ts</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">delay</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">-</span> <span class="n">interval</span>
+                    <span class="k">if</span> <span class="n">delay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">LOG</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">_LW</span><span class="p">(</span><span class="s1">&#39;task </span><span class="si">%(func_name)s</span><span class="s1"> run outlasted &#39;</span>
+                                     <span class="s1">&#39;interval by </span><span class="si">%(delay).2f</span><span class="s1"> sec&#39;</span><span class="p">),</span>
+                                 <span class="p">{</span><span class="s1">&#39;func_name&#39;</span><span class="p">:</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">),</span> <span class="s1">&#39;delay&#39;</span><span class="p">:</span> <span class="n">delay</span><span class="p">})</span>
+                    <span class="n">greenthread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="o">-</span><span class="n">delay</span> <span class="k">if</span> <span class="n">delay</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">LoopingCallDone</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+                <span class="n">done</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">retvalue</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">_LE</span><span class="p">(</span><span class="s1">&#39;in fixed duration looping call&#39;</span><span class="p">))</span>
+                <span class="n">done</span><span class="o">.</span><span class="n">send_exception</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
+                <span class="k">return</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">done</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">done</span> <span class="o">=</span> <span class="n">done</span>
+
+        <span class="n">greenthread</span><span class="o">.</span><span class="n">spawn_n</span><span class="p">(</span><span class="n">_inner</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">done</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>首先，实例化 <code class="xref py py-class docutils literal notranslate"><span class="pre">FixedIntervalLoopingCall</span></code> 对象，保存协程要执行的函数，函数参数等；</li>
+<li>然后执行 <code class="docutils literal notranslate"><span class="pre">periodic.start(1,</span> <span class="pre">2)</span></code> , 注意，执行该函数时，只是设置 interval, initial_delay
+参数，并利用闭包函数新建一个协程。此时，inner 函数还并没有机会投入运行！</li>
+<li>主控程序 periodic.wait(), 让出CPU，接下来的 _inner 函数有机会执行，并统计函数执行时间，
+依据时间差进入睡眠状态，等待下一次调度执行！</li>
+</ul>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>根据这个例子，我们可以知道，假如定时任务执行后，除非定时任务
+执行完成，否则代码 <code class="docutils literal notranslate"><span class="pre">periodic.wait()</span></code> 会永远阻塞。可是 OpenStack 组件一般
+有很多定时任务，那么他们是如何做到同时执行的呢。这个问题待结合OpenStack相关代码
+进行分析，待完成。</p>
+<p><strong>初步猜想，可能是在线程中启动协程。这样就可以开启多个定时任务，待验证！</strong></p>
+<p><strong>update: 2017-1-4 17:00</strong></p>
+<p class="last">根据补充的通知型定时任务分析可知，并非用到了什么多线程，实际上，nova是在一个函数
+<code class="xref py py-func docutils literal notranslate"><span class="pre">PeriodicTasks.run_periodic_tasks()</span></code> 中循环调用所有的定时任务来实现的。</p>
+</div>
+<p><strong>update: 2017-1-3 17:00</strong></p>
+<p>另外，根据源码可知，_inner() 函数内部是一个循环，只有捕获 <code class="xref py py-class docutils literal notranslate"><span class="pre">LoopingCallDone</span></code> 异常才会
+停止任务并通过 done.send() 解除 done.wait() 阻塞。因此，一般对于这类定时任务在要调用的函数
+内部，抛出 <code class="xref py py-class docutils literal notranslate"><span class="pre">LoopingCallDone</span></code> 异常。nova源码中也有类似的处理：比如 libvirt 启动虚拟机时，
+就一直阻塞等待虚拟机状态为 <code class="docutils literal notranslate"><span class="pre">RUNNING</span></code> 。</p>
+<p><code class="file docutils literal notranslate"><span class="pre">nova/virt/libvirt/driver.py</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">spawn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">image_meta</span><span class="p">,</span> <span class="n">injected_files</span><span class="p">,</span>
+          <span class="n">admin_password</span><span class="p">,</span> <span class="n">network_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">block_device_info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_wait_for_boot</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Called at an interval until the VM is running.&quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_info</span><span class="p">(</span><span class="n">instance</span><span class="p">)[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">power_state</span><span class="o">.</span><span class="n">RUNNING</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_LI</span><span class="p">(</span><span class="s2">&quot;Instance spawned successfully.&quot;</span><span class="p">),</span>
+                     <span class="n">instance</span><span class="o">=</span><span class="n">instance</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">loopingcall</span><span class="o">.</span><span class="n">LoopingCallDone</span><span class="p">()</span>
+
+    <span class="n">timer</span> <span class="o">=</span> <span class="n">loopingcall</span><span class="o">.</span><span class="n">FixedIntervalLoopingCall</span><span class="p">(</span><span class="n">_wait_for_boot</span><span class="p">)</span>
+    <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id11">23.2. 状态报告和通知型定时任务</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>下面以 nova-scheduler 服务为例，分析第二种定时任务。
+我们可以开启 <code class="docutils literal notranslate"><span class="pre">--debug</span></code> 选项，然后通过日志查看调用的定时任务：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nova</span><span class="o">-</span><span class="n">scheduler</span> <span class="o">--</span><span class="n">debug</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id6">
+<a class="reference internal image-reference" href="../_images/running_periodic.png"><img alt="../_images/running_periodic.png" src="../_images/running_periodic.png" style="width: 1422.0px; height: 145.0px;" /></a>
+<p class="caption"><span class="caption-text">日志输出定时任务运行信息</span></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@allinone</span><span class="o">-</span><span class="n">v2</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="c1"># grep &quot;Running periodic task&quot; nova-scheduler.log</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span> <span class="mi">22</span><span class="p">:</span><span class="mi">04</span><span class="p">:</span><span class="mf">39.641</span> <span class="mi">41574</span> <span class="n">DEBUG</span> <span class="n">nova</span><span class="o">.</span><span class="n">openstack</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">periodic_task</span> <span class="p">[</span><span class="n">req</span><span class="o">-</span><span class="mi">1</span><span class="n">cbaa1f0</span><span class="o">-</span><span class="mi">09</span><span class="n">d9</span><span class="o">-</span><span class="mi">4</span><span class="n">ba2</span><span class="o">-</span><span class="n">b366</span><span class="o">-</span><span class="mi">3930</span><span class="n">bc98014c</span> <span class="kc">None</span><span class="p">]</span> <span class="n">Running</span> <span class="n">periodic</span> <span class="n">tas</span> <span class="n">SchedulerManager</span><span class="o">.</span><span class="n">_run_periodic_tasks</span> <span class="n">run_periodic_tasks</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">openstack</span><span class="o">/</span><span class="n">common</span><span class="o">/</span><span class="n">periodic_task</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">201</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span> <span class="mi">22</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mf">15.637</span> <span class="mi">41574</span> <span class="n">DEBUG</span> <span class="n">nova</span><span class="o">.</span><span class="n">openstack</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">periodic_task</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="n">Running</span> <span class="n">periodic</span> <span class="n">task</span> <span class="n">SchedulerManager</span><span class="o">.</span><span class="n">_expire_reservations</span> <span class="n">run_periodic_tasks</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">openstack</span><span class="o">/</span><span class="n">common</span><span class="o">/</span><span class="n">periodic_task</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">201</span>
+<span class="mi">2017</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">03</span> <span class="mi">22</span><span class="p">:</span><span class="mi">05</span><span class="p">:</span><span class="mf">39.650</span> <span class="mi">41574</span> <span class="n">DEBUG</span> <span class="n">nova</span><span class="o">.</span><span class="n">openstack</span><span class="o">.</span><span class="n">common</span><span class="o">.</span><span class="n">periodic_task</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="n">Running</span> <span class="n">periodic</span> <span class="n">task</span> <span class="n">SchedulerManager</span><span class="o">.</span><span class="n">_run_periodic_tasks</span> <span class="n">run_periodic_tasks</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">openstack</span><span class="o">/</span><span class="n">common</span><span class="o">/</span><span class="n">periodic_task</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">201</span>
+</pre></div>
+</div>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">nova.scheduler.manager.SchedulerManager</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@periodic_task</span><span class="o">.</span><span class="n">periodic_task</span>
+<span class="k">def</span> <span class="nf">_expire_reservations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="n">QUOTAS</span><span class="o">.</span><span class="n">expire</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+
+<span class="nd">@periodic_task</span><span class="o">.</span><span class="n">periodic_task</span><span class="p">(</span><span class="n">spacing</span><span class="o">=</span><span class="n">CONF</span><span class="o">.</span><span class="n">scheduler_driver_task_period</span><span class="p">,</span>
+                             <span class="n">run_immediately</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_run_periodic_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">run_periodic_tasks</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>SchedulerManager 类有两个定时任务，我们来看看定时任务装饰器函数 <code class="xref py py-func docutils literal notranslate"><span class="pre">periodic_task()</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">periodic_task</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator to indicate that a method is a periodic task.</span>
+
+<span class="sd">    This decorator can be used in two ways:</span>
+
+<span class="sd">        1. Without arguments &#39;@periodic_task&#39;, this will be run on the default</span>
+<span class="sd">           interval of 60 seconds.</span>
+
+<span class="sd">        2. With arguments:</span>
+<span class="sd">           @periodic_task(spacing=N [, run_immediately=[True|False]])</span>
+<span class="sd">           this will be run on approximately every N seconds. If this number is</span>
+<span class="sd">           negative the periodic task will be disabled. If the run_immediately</span>
+<span class="sd">           argument is provided and has a value of &#39;True&#39;, the first run of the</span>
+<span class="sd">           task will be shortly after task scheduler starts.  If</span>
+<span class="sd">           run_immediately is omitted or set to &#39;False&#39;, the first time the</span>
+<span class="sd">           task runs will be approximately N seconds after the task scheduler</span>
+<span class="sd">           starts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+        <span class="c1"># Test for old style invocation</span>
+        <span class="k">if</span> <span class="s1">&#39;ticks_between_runs&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">InvalidPeriodicTaskArg</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="s1">&#39;ticks_between_runs&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Control if run at all</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">_periodic_task</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">_periodic_external_ok</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;external_process_ok&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_periodic_external_ok</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">CONF</span><span class="o">.</span><span class="n">run_external_periodic_tasks</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">_periodic_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">_periodic_enabled</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;enabled&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Control frequency</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;spacing&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">_periodic_immediate</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;run_immediately&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">_periodic_immediate</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">_periodic_last_run</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">_periodic_last_run</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">f</span>
+
+    <span class="c1"># NOTE(sirp): The `if` is necessary to allow the decorator to be used with</span>
+    <span class="c1"># and without parenthesis.</span>
+    <span class="c1">#</span>
+    <span class="c1"># In the &#39;with-parenthesis&#39; case (with kwargs present), this function needs</span>
+    <span class="c1"># to return a decorator function since the interpreter will invoke it like:</span>
+    <span class="c1">#</span>
+    <span class="c1">#   periodic_task(*args, **kwargs)(f)</span>
+    <span class="c1">#</span>
+    <span class="c1"># In the &#39;without-parenthesis&#39; case, the original function will be passed</span>
+    <span class="c1"># in as the first argument, like:</span>
+    <span class="c1">#</span>
+    <span class="c1">#   periodic_task(f)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">decorator</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>代码注释很清楚，这个装饰器就是给要定时运行的函数加上一些额外的属性，用来控制
+定时任务函数的执行和执行频率等。</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">periodic.periodic_task()</span></code> 装饰器是用来装饰 <code class="xref py py-class docutils literal notranslate"><span class="pre">Manager</span></code> 类的。
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Manager</span></code> 类的继承体系如下：</p>
+<div class="figure align-center" id="id7">
+<a class="reference internal image-reference" href="../_images/periodic_task.png"><img alt="../_images/periodic_task.png" src="../_images/periodic_task.png" style="width: 1050.0px; height: 561.0px;" /></a>
+<p class="caption"><span class="caption-text">periodic_task 装饰器装饰 manager 类</span></p>
+</div>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">nova.scheduler.manager.SchedulerManager</span></code> –&gt; <code class="xref py py-class docutils literal notranslate"><span class="pre">nova.manager.Manager</span></code>
+–&gt; ( <code class="xref py py-class docutils literal notranslate"><span class="pre">nova.db.base.Base</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">nova.openstack.common.periodic_task.PeriodicTasks</span></code>)</p>
+<p>其中， <code class="xref py py-class docutils literal notranslate"><span class="pre">nova.openstack.common.periodic_task.PeriodicTasks</span></code> 具有元类
+<code class="xref py py-class docutils literal notranslate"><span class="pre">_PeriodicTasksMeta</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">_PeriodicTasksMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Metaclass that allows us to collect decorated periodic tasks.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">_PeriodicTasksMeta</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">)</span>
+
+        <span class="c1"># NOTE(sirp): if the attribute is not present then we must be the base</span>
+        <span class="c1"># class, so, go ahead an initialize it. If the attribute is present,</span>
+        <span class="c1"># then we&#39;re a subclass so make a copy of it so we don&#39;t step on our</span>
+        <span class="c1"># parent&#39;s toes.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_tasks</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_tasks</span><span class="p">[:]</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_tasks</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_spacing</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;_periodic_task&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="vm">__name__</span>
+
+                <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_LI</span><span class="p">(</span><span class="s1">&#39;Skipping periodic task </span><span class="si">%(task)s</span><span class="s1"> because &#39;</span>
+                                 <span class="s1">&#39;its interval is negative&#39;</span><span class="p">),</span>
+                             <span class="p">{</span><span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">task</span><span class="o">.</span><span class="n">_periodic_enabled</span><span class="p">:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">_LI</span><span class="p">(</span><span class="s1">&#39;Skipping periodic task </span><span class="si">%(task)s</span><span class="s1"> because &#39;</span>
+                                 <span class="s1">&#39;it is disabled&#39;</span><span class="p">),</span>
+                             <span class="p">{</span><span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># A periodic spacing of zero indicates that this task should</span>
+                <span class="c1"># be run on the default interval to avoid running too</span>
+                <span class="c1"># frequently.</span>
+                <span class="k">if</span> <span class="n">task</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">task</span><span class="o">.</span><span class="n">_periodic_spacing</span> <span class="o">=</span> <span class="n">DEFAULT_INTERVAL</span>
+
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_tasks</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">task</span><span class="p">))</span>
+                <span class="bp">cls</span><span class="o">.</span><span class="n">_periodic_spacing</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">_periodic_spacing</span>
+</pre></div>
+</div>
+<p>需要注意这行代码: <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">getattr(value,</span> <span class="pre">'_periodic_task',</span> <span class="pre">False):</span></code> ，
+只有被 _periodic_task 修饰的函数，该行代码才返回真。
+元类通过拦截 <code class="xref py py-class docutils literal notranslate"><span class="pre">SchedulerManager</span></code> 类的创建，使得类属性
+cls._periodic_task 和 cls._periodic_spacing 保存有通过 _periodic_task 装饰器
+装饰的定时任务函数信息。</p>
+<p>然后我们来看看服务启动 Service.Start 函数:</p>
+<p><code class="file docutils literal notranslate"><span class="pre">nova/Service:Service.start</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">periodic_enable</span><span class="p">:</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">periodic_fuzzy_delay</span><span class="p">:</span>
+        <span class="n">initial_delay</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">periodic_fuzzy_delay</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">initial_delay</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">tg</span><span class="o">.</span><span class="n">add_dynamic_timer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">periodic_tasks</span><span class="p">,</span>
+                             <span class="n">initial_delay</span><span class="o">=</span><span class="n">initial_delay</span><span class="p">,</span>
+                             <span class="n">periodic_interval_max</span><span class="o">=</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">periodic_interval_max</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="file docutils literal notranslate"><span class="pre">nova/openstack/common/threadgroup:ThreadGroup.add_dynamic_timer</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_dynamic_timer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">initial_delay</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="n">periodic_interval_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">timer</span> <span class="o">=</span> <span class="n">loopingcall</span><span class="o">.</span><span class="n">DynamicLoopingCall</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">initial_delay</span><span class="o">=</span><span class="n">initial_delay</span><span class="p">,</span>
+                <span class="n">periodic_interval_max</span><span class="o">=</span><span class="n">periodic_interval_max</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">timer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>add_dynamic_timer 函数不过是创建一个 DynamicLoopingCall 对象，
+动态定时调用自身的 periodic_tasks 函数，
+而该函数又调用相应的 Manager.periodic_task 函数：</p>
+<p><code class="file docutils literal notranslate"><span class="pre">nova/service:Service.periodic_task</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">periodic_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tasks to be run at a periodic interval.&quot;&quot;&quot;</span>
+    <span class="n">ctxt</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get_admin_context</span><span class="p">()</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">periodic_tasks</span><span class="p">(</span><span class="n">ctxt</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="n">raise_on_error</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="file docutils literal notranslate"><span class="pre">nova/manager:Manager.periodic_tasks</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">periodic_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Tasks to be run at a periodic interval.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_periodic_tasks</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="n">raise_on_error</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>run_periodic_tasks 函数在具有元类 _PeriodicTasksMeta 的类 PeriodicTasks 中定义：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PeriodicTasks</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">PeriodicTasks</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_last_run</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_tasks</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_last_run</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">_periodic_last_run</span>
+
+    <span class="k">def</span> <span class="nf">run_periodic_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">raise_on_error</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Tasks to be run at a periodic interval.&quot;&quot;&quot;</span>
+        <span class="n">idle_for</span> <span class="o">=</span> <span class="n">DEFAULT_INTERVAL</span>
+        <span class="k">for</span> <span class="n">task_name</span><span class="p">,</span> <span class="n">task</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_tasks</span><span class="p">:</span>
+            <span class="n">full_task_name</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">task_name</span><span class="p">])</span>
+
+            <span class="n">spacing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_spacing</span><span class="p">[</span><span class="n">task_name</span><span class="p">]</span>
+            <span class="n">last_run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_last_run</span><span class="p">[</span><span class="n">task_name</span><span class="p">]</span>
+
+            <span class="c1"># Check if due, if not skip</span>
+            <span class="n">idle_for</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">idle_for</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">last_run</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">delta</span> <span class="o">=</span> <span class="n">last_run</span> <span class="o">+</span> <span class="n">spacing</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">delta</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">idle_for</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">idle_for</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+                    <span class="k">continue</span>
+
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Running periodic task </span><span class="si">%(full_task_name)s</span><span class="s2">&quot;</span><span class="p">,</span>
+                      <span class="p">{</span><span class="s2">&quot;full_task_name&quot;</span><span class="p">:</span> <span class="n">full_task_name</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_periodic_last_run</span><span class="p">[</span><span class="n">task_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_nearest_boundary</span><span class="p">(</span>
+                <span class="n">last_run</span><span class="p">,</span> <span class="n">spacing</span><span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">raise_on_error</span><span class="p">:</span>
+                    <span class="k">raise</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">_LE</span><span class="p">(</span><span class="s2">&quot;Error during </span><span class="si">%(full_task_name)s</span><span class="s2">: </span><span class="si">%(e)s</span><span class="s2">&quot;</span><span class="p">),</span>
+                              <span class="p">{</span><span class="s2">&quot;full_task_name&quot;</span><span class="p">:</span> <span class="n">full_task_name</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">:</span> <span class="n">e</span><span class="p">})</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">idle_for</span>
+</pre></div>
+</div>
+<p>从而最终实际上要调用的动态定时函数是 run_periodic_tasks ，在该函数中，会
+依次调用所有的被 periodic_task 装饰器包装的函数。</p>
+<p>最后，在 nova/cmd/scheduler.py 中执行 server.wait() 函数，经过一系列的
+跳转调用后，最终调用 <code class="file docutils literal notranslate"><span class="pre">nova/openstack/common/threadgroup:ThreadGroup.wait</span></code> 函数。
+在该函数里面，会调用 Event.wait()，从而每个定时任务可以调度运行。</p>
+<p>在wait函数中打印堆栈信息，查看调用跳转流程。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">wait</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">inspect</span><span class="p">;</span>
+    <span class="n">stack</span><span class="o">=</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span>
+    <span class="n">LOG_DEBUG</span><span class="p">(</span><span class="s2">&quot;in wait&quot;</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="n">stack</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">timers</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">eventlet</span><span class="o">.</span><span class="n">greenlet</span><span class="o">.</span><span class="n">GreenletExit</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span>
+
+    <span class="c1"># Iterate over a copy of self.threads so thread_done doesn&#39;t</span>
+    <span class="c1"># modify the list while we&#39;re iterating</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">threads</span><span class="p">[:]:</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">current</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">x</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">except</span> <span class="n">eventlet</span><span class="o">.</span><span class="n">greenlet</span><span class="o">.</span><span class="n">GreenletExit</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id8">
+<a class="reference internal image-reference" href="../_images/wait_stack.png"><img alt="../_images/wait_stack.png" src="../_images/wait_stack.png" style="width: 1425.0px; height: 218.0px;" /></a>
+<p class="caption"><span class="caption-text">ThreadGroup.wait 函数调用堆栈</span></p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">+++===+++</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="p">(</span><span class="s1">&#39;in wait&#39;</span><span class="p">,),</span>
+<span class="p">{</span><span class="s1">&#39;stack&#39;</span><span class="p">:</span>
+<span class="p">[</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fc010748050</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-packages/nova/openstack/common/thread    group.py&#39;</span><span class="p">,</span> <span class="mi">114</span><span class="p">,</span> <span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;        stack = inspect.stack()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x275afc0</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-packages/nova/o    penstack/common/service.py&#39;</span><span class="p">,</span> <span class="mi">473</span><span class="p">,</span> <span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;        self.tg.wait()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x2679e50</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-packag    es/nova/openstack/common/service.py&#39;</span><span class="p">,</span> <span class="mi">137</span><span class="p">,</span> <span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;        self.services.wait()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x25ff5b0</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python    2.7/dist-packages/nova/openstack/common/service.py&#39;</span><span class="p">,</span> <span class="mi">174</span><span class="p">,</span> <span class="s1">&#39;_wait_for_exit_or_signal&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;            super(ServiceLauncher, self).wait()</span><span class="se">\n</span><span class="s1">    &#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fc010746050</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-packages/nova/openstack/common/service.py&#39;</span><span class="p">,</span> <span class="mi">196</span><span class="p">,</span> <span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;                status, signo = self._wait_for_exit_or_signal(ready_callback)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fc01084f898</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-pack    ages/nova/service.py&#39;</span><span class="p">,</span> <span class="mi">446</span><span class="p">,</span> <span class="s1">&#39;wait&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;    _launcher.wait()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fc011d0f050</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/lib/python2.7/dist-packages/    nova/cmd/scheduler.py&#39;</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="s1">&#39;main&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;    service.wait()</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">(</span><span class="o">&lt;</span><span class="n">frame</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7fc01bb0d3e0</span><span class="o">&gt;</span><span class="p">,</span> <span class="s1">&#39;/usr/bin/nova-scheduler&#39;</span><span class="p">,</span> <span class="mi">44</span><span class="p">,</span> <span class="s1">&#39;&lt;module&gt;&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;        sys.exit(main())</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">],</span> <span class="mi">0</span><span class="p">)]</span>
+<span class="p">},</span>
+<span class="p">[</span><span class="c1">###] /usr/lib/python2.7/dist-packages/nova/openstack/common/threadgroup.py:wait:115</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="http://www.cnblogs.com/yuhan-TB/p/4085074.html">http://www.cnblogs.com/yuhan-TB/p/4085074.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nova_log.html" class="btn btn-neutral float-right" title="24. OpenStack 日志模块分析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nova_rpcserver_start.html" class="btn btn-neutral float-left" title="22. nova rpc服务启动分析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ZT
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

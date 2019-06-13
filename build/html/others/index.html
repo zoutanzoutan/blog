@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>未分类 &mdash; openstack 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="1. reStructuredText简明教程" href="rst_template.html" />
+    <link rel="prev" title="2. neutron虚机网络流分析" href="../network/neutron_intro.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> openstack
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../py_doc/index.html">Python Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linux_tools/index.html">Hack Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../openstack/index.html">OpenStack Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">网络技术/neutron</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">未分类</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html">1. reStructuredText简明教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html">2. rst 用法总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store_intro.html">3. ceph与分布式存储入门</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mark_lan.html">4. 附录：轻量级标记语言</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html">5. 软件和工具</a></li>
+<li class="toctree-l2"><a class="reference internal" href="keep_writting.html">6. 不忘初心，坚持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="good_blog.html">7. 推荐博客和链接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptables_sum.html">8. iptables 学习总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_start_error.html">9. Nova服务无法启动,日志,权限和异常处理</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_rabbitmq.html">10. horizon集成rabbitmq监控</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html">11. 前端开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html">12. Ceph web管理/监控平台Inkscope部署</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mysql_note.html">13. mysql相关</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html">14. Django WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tip.html">15. tips</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html">16. 云审查前端开发</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openstack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>未分类</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/others/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>未分类<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">附录和其他杂项讨论</p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rst_template.html">1. reStructuredText简明教程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id2">1.1. 段落</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#block-quotes">1.1.1. Block Quotes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id3">1.1.2. 分割线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id4">1.1.3. 侧边栏</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id5">1.1.4. 复合段落</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id6">1.2. 二号标题：使用链接</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id7">1.2.1. 描点链接</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id8">1.2.2. 外部链接</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id11">1.2.3. 内部链接</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id12">1.3. 尾注</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id18">1.4. 引用：</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id20">1.5. 添加图片</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id21">1.5.1. 普通图片添加</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id22">1.5.2. 插图引用</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id23">1.6. 内联标记(单词标记)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id24">1.7. 列表：</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id25">1.7.1. 名称解释列表：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#definition-lists">1.8. Definition Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#bullet-lists">1.9. Bullet Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id26">1.10. 特殊段落标记</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_template.html#id27">1.10.1. 提示框</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id31">1.11. 源代码标记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id37">1.12. 替换文本</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#id38">1.13. 表格</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_template.html#mdrst">1.14. md和rst格式转化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rst_usage.html">2. rst 用法总结</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id2">2.1. 锚点链接</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rst_usage.html#id3">2.1.1. 内部链接</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rst_usage.html#id4">2.1.2. 外部链接</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id5">2.2. 代码相关</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id6">2.3. 引用图片</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id7">2.4. 注释</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id8">2.5. 目录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id9">2.6. 层次结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id10">2.7. 列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rst_usage.html#id11">2.8. 其他</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="store_intro.html">3. ceph与分布式存储入门</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="store_intro.html#id2">3.1. 对象存储</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="store_intro.html#id3">3.1.1. 概念</a></li>
+<li class="toctree-l3"><a class="reference internal" href="store_intro.html#id8">3.1.2. 特点</a></li>
+<li class="toctree-l3"><a class="reference internal" href="store_intro.html#id13">3.1.3. 对象存储系统组成</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="store_intro.html#openstackceph">3.2. OpenStack利用ceph备份还原虚拟机</a></li>
+<li class="toctree-l2"><a class="reference internal" href="store_intro.html#id18">3.3. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mark_lan.html">4. 附录：轻量级标记语言</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tools.html">5. 软件和工具</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tools.html#windows">5.1. windows装机必备</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools.html#id2">5.2. 开发相关</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keep_writting.html">6. 不忘初心，坚持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="good_blog.html">7. 推荐博客和链接</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="good_blog.html#openstack">7.1. openstack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="good_blog.html#neutron">7.2. neutron网络系列</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="iptables_sum.html">8. iptables 学习总结</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="iptables_sum.html#id2">8.1. 基本原理</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#id3">8.1.1. 表</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#id4">8.1.2. 链和规则</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#id5">8.1.3. 数据包匹配流程</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iptables_sum.html#id6">8.2. 命令格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="iptables_sum.html#id8">8.3. 常用扩展</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#connlimit">8.3.1. connlimit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#limit">8.3.2. limit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#recent">8.3.3. recent</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#string">8.3.4. string</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="iptables_sum.html#id9">8.4. iptables常用规则/命令</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#ip">8.4.1. 限制每个ip的连接数量</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#id11">8.4.2. 限制每个ip的连接速率</a></li>
+<li class="toctree-l3"><a class="reference internal" href="iptables_sum.html#id12">8.4.3. 其他</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="nova_start_error.html">9. Nova服务无法启动,日志,权限和异常处理</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="nova_start_error.html#id2">9.1. 问题及现象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_start_error.html#id3">9.2. 解决方案</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_start_error.html#id4">9.3. 异常处理实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_start_error.html#linux-log">9.4. Linux Log</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="nova_start_error.html#daemon-log">9.4.1. daemon.log日志</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nova_start_error.html#upstart">9.4.2. upstart日志</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="horizon_rabbitmq.html">10. horizon集成rabbitmq监控</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="horizon_rabbitmq.html#rabbitmq-web">10.1. 开启rabbitmq web监控</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_rabbitmq.html#horizon">10.2. 集成到horizon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="horizon_rabbitmq.html#id4">10.2.1. 小问题</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_rabbitmq.html#rabbitmq-http-api">10.3. rabbitmq http-api</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_rabbitmq.html#id6">10.4. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="html_note.html">11. 前端开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#id3">11.1. 页面动态数据获取</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="html_note.html#id4">11.1.1. 两种获取数据方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="html_note.html#ajax">11.1.2. ajax请求处理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#select">11.2. select点击事件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#html">11.3. 设置html值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#id5">11.4. 数据分页</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#id6">11.5. 文件下载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#id7">11.6. 复选框</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#button">11.7. button标签与表单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#input-type-submit-button">11.8. input type=”submit” 和”button”区别分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="html_note.html#id8">11.9. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="inkscope_install.html">12. Ceph web管理/监控平台Inkscope部署</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#deb">12.1. 下载deb包</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#id2">12.2. 安装相关依赖</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#apache2">12.3. 配置apache2服务</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="inkscope_install.html#id3">12.3.1. 无法显示页面</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#mongodb">12.4. 开启mongodb远程连接</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#cephprobe">12.5. 安装cephprobe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#radosgw">12.6. radosgw服务配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#sysprobe">12.7. 安装sysprobe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inkscope_install.html#id4">12.8. 简单原理分析</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mysql_note.html">13. mysql相关</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mysql_note.html#id2">13.1. mysql权限</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mysql_note.html#id3">13.2. MySQL相关命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mysql_note.html#shellmysql">13.3. shell中执行MySQL命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mysql_note.html#id4">13.4. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="websocket.html">14. Django WebSocket</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#id2">14.1. websocket基础知识</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="websocket.html#id4">14.1.1. websocket握手连接过程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="websocket.html#id5">14.1.2. 客户端websocket</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#websocket-api">14.2. 客户端WebSocket API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#dwebsocket">14.3. dwebsocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#id6">14.4. 消息推送</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#apache">14.5. Apache部署</a></li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html#id7">14.6. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tip.html">15. tips</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ysc_note.html">16. 云审查前端开发</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#id3">16.1. 页面动态数据获取</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ysc_note.html#id4">16.1.1. 两种获取数据方式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ysc_note.html#ajax">16.1.2. ajax请求处理</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#select">16.2. select点击事件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#html">16.3. 设置html值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#id5">16.4. 数据分页</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#id6">16.5. 文件下载</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#id7">16.6. 复选框</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#button">16.7. button标签与表单</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#input-type-submit-button">16.8. input type=”submit” 和”button”区别分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ysc_note.html#id8">16.9. 参考</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="rst_template.html" class="btn btn-neutral float-right" title="1. reStructuredText简明教程" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../network/neutron_intro.html" class="btn btn-neutral float-left" title="2. neutron虚机网络流分析" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ZT
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

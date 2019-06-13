@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>21. OpenStack 调试 &mdash; openstack 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="22. nova rpc服务启动分析" href="nova_rpcserver_start.html" />
+    <link rel="prev" title="20. kombu和消息队列总结" href="kombu.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> openstack
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../py_doc/index.html">Python Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../linux_tools/index.html">Hack Linux</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">OpenStack Note</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="horizon_develop.html">1. Horizon 二次开发指南</a></li>
+<li class="toctree-l2"><a class="reference internal" href="image-create-guide.html">2. OpenStack镜像制作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploy_synopsis.html">3. OpenStack 部署实践</a></li>
+<li class="toctree-l2"><a class="reference internal" href="centos_vm_netconf.html">4. Centos虚拟机联网配置</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lanch_instance_failure.html">5. OpenStack 启动虚拟机失败分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rabbitmq_doc.html">6. [翻译] rabbitmq教程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os_cmd.html">7. openstack命令汇总</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kvm_error.html">8. KVM错误问题</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_middleware.html">9. django中间件和openstack用户重登录分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_workflows_analysis.html">10. [翻译] horizon workflows分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_launch_instance.html">11. horizon启动虚拟机分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django-generic_view.html">12. django通用视图：一个小问题引发的思考</a></li>
+<li class="toctree-l2"><a class="reference internal" href="django_auth.html">13. Django认证：horizon登录认证解析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cloud_check.html">14. 云平台服务器重启注意事项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="paste_webob_routes.html">15. OpenStack REST-API基础：paste/webob/routes库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="opengrok_xp.html">16. OpenGrok代码浏览环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_api.html">17. nova-api分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_smd.html">18. [翻译] nova：Services、Managers and Drivers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="oslo_cfg.html">19. oslo.config 用法总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kombu.html">20. kombu和消息队列总结</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">21. OpenStack 调试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">21.1. 日志</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdb-ipdb">21.2. pdb/ipdb</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#set-trace">21.2.1. set_trace</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pdb">21.2.2. 直接使用 pdb 模块参数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#debug">21.3. 命令行debug模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">21.4. 使用自己编写的调试设施</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">21.5. 参考</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nova_rpcserver_start.html">22. nova rpc服务启动分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="periodic_task.html">23. OpenStack周期性任务分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_log.html">24. OpenStack 日志模块分析</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qemu_kvm.html">25. qemu/kvm学习笔记</a></li>
+<li class="toctree-l2"><a class="reference internal" href="virt_cmd.html">26. 虚拟化相关命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qemu_img_encry.html">27. nova虚机加密总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nova_interact.html">28. nova组件间交互总结</a></li>
+<li class="toctree-l2"><a class="reference internal" href="juno_neutron-meter-agent_install.html">29. juno安装neutron-meter-agent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="horizon_interactive.html">30. ceilometer api扩展与horizon前后端交互流程解析</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../network/index.html">网络技术/neutron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../others/index.html">未分类</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">openstack</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">OpenStack Note</a> &raquo;</li>
+        
+      <li>21. OpenStack 调试</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/openstack/openstack_debug.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="openstack">
+<span id="openstack-debug"></span><h1><a class="toc-backref" href="#id12">21. OpenStack 调试</a><a class="headerlink" href="#openstack" title="Permalink to this headline">¶</a></h1>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目录</p>
+<ul class="simple">
+<li><a class="reference internal" href="#openstack" id="id12">OpenStack 调试</a><ul>
+<li><a class="reference internal" href="#id3" id="id13">日志</a></li>
+<li><a class="reference internal" href="#pdb-ipdb" id="id14">pdb/ipdb</a><ul>
+<li><a class="reference internal" href="#set-trace" id="id15">set_trace</a></li>
+<li><a class="reference internal" href="#pdb" id="id16">直接使用 pdb 模块参数</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debug" id="id17">命令行debug模式</a></li>
+<li><a class="reference internal" href="#id4" id="id18">使用自己编写的调试设施</a></li>
+<li><a class="reference internal" href="#id5" id="id19">参考</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<p>这里简要把自己分析、跟踪、调试OpenStack组件所用到的方法记录下来。
+主要参考了网友 <cite>koala bear</cite> 的博文 <a class="reference external" href="http://wsfdl.com/openstack/2013/08/28/%E8%B0%83%E8%AF%95OpenStack.html">OpenStack调试</a> ，在此表示感谢！</p>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id13">21.1. 日志</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">OpenStack</span> <span class="pre">logging</span></code> 模块是在 <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">logging</span></code> 基础之上做了封装，使用简单，以 nova 为例，首先需要导入相关代码文件，获取日志句柄后，即可往该句柄写入日志信息。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">nova.openstack.common</span> <span class="k">import</span> <span class="n">log</span> <span class="k">as</span> <span class="n">logging</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Print log.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>如果文件中已经导入日志模块和获取日志句柄，直接使用该句柄即可。
+OpenStack logging 模块提供了丰富的和日志相关的配置项，详情请见 logging config options。</p>
+<p>nova组件的默认日志等级是 <code class="docutils literal notranslate"><span class="pre">INFO</span></code> ，我们可以开启 <code class="docutils literal notranslate"><span class="pre">--debug</span></code> 选项，然后重启服务，
+可以看到更详细的日志信息。</p>
+<p>有时间，得好好看看 nova.openstack.common.log.py 模块的源码，功能真的很强大!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span>
+<span class="n">ps</span> <span class="o">-</span><span class="n">ef</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span><span class="o">-</span><span class="n">conductor</span>
+<span class="c1"># 然后进程的参数信息，重启服务，开启--debug 选项！</span>
+<span class="o">./</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span> <span class="o">--</span><span class="n">debug</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">.</span><span class="n">conf</span>
+<span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p>此外还可以使用 <code class="docutils literal notranslate"><span class="pre">nohup</span></code> 命令，将日志输出到自己想要的文件：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span>
+<span class="n">nohup</span> <span class="n">nova</span><span class="o">-</span><span class="n">conductor</span> <span class="o">--</span><span class="n">debug</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">.</span><span class="n">conf</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">smbshare</span><span class="o">/</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>自己添加 LOG 信息：</strong></p>
+<p>假如自己要查看某些变量的信息，可以使用如下方式：</p>
+<ul>
+<li><p class="first">添加  <code class="docutils literal notranslate"><span class="pre">LOG.debug(&quot;+++===+++</span> <span class="pre">arg:</span> <span class="pre">%s&quot;,</span> <span class="pre">arg)</span></code> ，假如模块还没有获取日志句柄，自己就先创建！</p>
+</li>
+<li><p class="first">重启相应服务，开启 <code class="docutils literal notranslate"><span class="pre">--debug</span></code> 选项。否则自己添加的日志信息不会记录！</p>
+</li>
+<li><p class="first">然后根据 +++===+++ 过滤：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="p">;</span>
+<span class="n">fgrep</span> <span class="s2">&quot;+++===+++&quot;</span> <span class="o">.</span> <span class="o">-</span><span class="n">rn</span>
+<span class="c1"># 或者用这种方式</span>
+<span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span><span class="o">.</span><span class="n">log</span> <span class="o">|</span> <span class="n">fgrep</span> <span class="s2">&quot;+++===+++&quot;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="pdb-ipdb">
+<h2><a class="toc-backref" href="#id14">21.2. pdb/ipdb</a><a class="headerlink" href="#pdb-ipdb" title="Permalink to this headline">¶</a></h2>
+<p>pdb 是 python 自带的库，它支持设置断点、单步调试源码、查看当前代码、
+查看 stack 片段和动态修改变量的值等功能，根据个人经验，使用 pdb 调试 OpenStack
+使用到的主要命令包括：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="mi">10</span>
+<span class="n">b</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">virt</span><span class="o">/</span><span class="n">libvirt</span><span class="o">/</span><span class="n">driver</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">6046</span> <span class="c1"># 设置断点</span>
+<span class="n">b</span>    <span class="c1"># 列出断点</span>
+<span class="n">cl</span> <span class="mi">2</span> <span class="c1"># 删除第二个断点</span>
+<span class="n">c</span> <span class="c1"># 继续执行程序直到下一个断点</span>
+<span class="n">n</span> <span class="c1"># 继续执行下一行代码</span>
+<span class="n">l</span> <span class="c1"># 列出当前代码</span>
+<span class="n">p</span> <span class="c1"># 打印变量信息</span>
+<span class="n">pp</span> <span class="nb">locals</span><span class="p">()</span> <span class="c1"># 美观打印</span>
+<span class="n">s</span> <span class="c1"># 进入函数，该选项对于跨模块调试非常有用！</span>
+<span class="n">r</span> <span class="c1"># 执行代码直到从当前函数返回</span>
+<span class="n">q</span> <span class="c1"># 退出调试</span>
+<span class="n">a</span> <span class="c1"># 列出函数所有参数</span>
+<span class="n">ctrl</span> <span class="o">+</span> <span class="n">c</span> <span class="c1"># 重新开始调试</span>
+<span class="n">restart</span>  <span class="c1"># 重新开始调试</span>
+<span class="o">&lt;</span><span class="n">enter</span><span class="o">&gt;</span>  <span class="c1"># 重复上条命令</span>
+</pre></div>
+</div>
+<div class="section" id="set-trace">
+<h3><a class="toc-backref" href="#id15">21.2.1. set_trace</a><a class="headerlink" href="#set-trace" title="Permalink to this headline">¶</a></h3>
+<p>使用该方法时，需在断点处加入以下代码：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>以调试 nova 创建虚拟机为例，在 API 入口处加入上行代码：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@wsgi</span><span class="o">.</span><span class="n">response</span><span class="p">(</span><span class="mi">202</span><span class="p">)</span>
+<span class="nd">@wsgi</span><span class="o">.</span><span class="n">serializers</span><span class="p">(</span><span class="n">xml</span><span class="o">=</span><span class="n">FullServerTemplate</span><span class="p">)</span>
+<span class="nd">@wsgi</span><span class="o">.</span><span class="n">deserializers</span><span class="p">(</span><span class="n">xml</span><span class="o">=</span><span class="n">CreateDeserializer</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a new server for a given user.&quot;&quot;&quot;</span>
+
+    <span class="c1"># 加入此行代码</span>
+    <span class="kn">import</span> <span class="nn">pdb</span><span class="p">;</span> <span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_valid_body</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="s1">&#39;server&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">HTTPUnprocessableEntity</span><span class="p">()</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">req</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;nova.context&#39;</span><span class="p">]</span>
+    <span class="n">server_dict</span> <span class="o">=</span> <span class="n">body</span><span class="p">[</span><span class="s1">&#39;server&#39;</span><span class="p">]</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_server_admin_password</span><span class="p">(</span><span class="n">server_dict</span><span class="p">)</span>
+    <span class="o">......</span>
+</pre></div>
+</div>
+<p>由于 pdb 是基于命令行的调试，因此，需要在命令行中重启相应服务，然后创建
+虚拟机时执行到该函数就会进入命令行调试模式：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span>
+<span class="n">ps</span> <span class="o">-</span><span class="n">ef</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">nova</span><span class="o">-</span><span class="n">api</span>
+<span class="o">./</span><span class="n">nova</span><span class="o">-</span><span class="n">api</span> <span class="o">--</span><span class="n">debug</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">.</span><span class="n">conf</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pdb">
+<h3><a class="toc-backref" href="#id16">21.2.2. 直接使用 pdb 模块参数</a><a class="headerlink" href="#pdb" title="Permalink to this headline">¶</a></h3>
+<p>无论是日志还是 pdb.set_trace 方法，均需要修改源代码，有没有一种方
+法不需要改动文件呢？答案是肯定的，pdb 还提供了另外一种调试模式：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m pdb debug_file.py
+</pre></div>
+</div>
+<p>以调试 nova 服务启动为例，步骤如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">pdb</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span> <span class="o">--</span><span class="n">debug</span> <span class="o">--</span><span class="n">config</span><span class="o">-</span><span class="n">file</span><span class="o">=/</span><span class="n">etc</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">nova</span><span class="o">.</span><span class="n">conf</span>
+
+<span class="c1"># 设置断点 b file_name.py:line</span>
+<span class="p">(</span><span class="n">pdb</span><span class="p">)</span> <span class="n">b</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">api</span><span class="o">/</span><span class="n">openstack</span><span class="o">/</span><span class="n">compute</span><span class="o">/</span><span class="n">servers</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">781</span>
+
+<span class="c1"># 按 c 运行程序，当收到创建虚拟机请求时，便会进入断点</span>
+<span class="p">(</span><span class="n">pdb</span><span class="p">)</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id9">
+<a class="reference internal image-reference" href="../_images/pdb_breakpoint.png"><img alt="../_images/pdb_breakpoint.png" src="../_images/pdb_breakpoint.png" style="width: 1025.0px; height: 186.0px;" /></a>
+<p class="caption"><span class="caption-text">设置跨文件断点</span></p>
+</div>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p><strong>更新1：</strong></p>
+<p><cite>(错误描述): 经过测试，设置跨文件断点，执行时并不会在断点处中断。
+看来跨文件调试，还是得使用 s 命令，或者使用 pdb.set_trace !</cite></p>
+<p><strong>更新2：</strong></p>
+<p>跨文件设置断点，只能在直接 import 的模块设置断点，而不能是连接文件！</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@allinone</span><span class="o">-</span><span class="n">v2</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="c1"># ll /usr/lib/python2.7/dist-packages/nova -d</span>
+<span class="n">lrwxrwxrwx</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">20</span> <span class="n">Nov</span> <span class="mi">28</span> <span class="mi">13</span><span class="p">:</span><span class="mi">25</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span> <span class="o">-&gt;</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cecgw</span><span class="o">/</span><span class="n">csmp</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">root</span><span class="nd">@allinone</span><span class="o">-</span><span class="n">v2</span><span class="p">:</span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nova</span><span class="c1"># python -m pdb /usr/bin/nova-conductor --config-file=/etc/nova/nova.conf</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">nova</span><span class="o">-</span><span class="n">conductor</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="kn">import</span> <span class="nn">sys</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">b</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">cmd</span><span class="o">/</span><span class="n">conductor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">45</span>
+<span class="n">Breakpoint</span> <span class="mi">1</span> <span class="n">at</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">cmd</span><span class="o">/</span><span class="n">conductor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">45</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">b</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cecgw</span><span class="o">/</span><span class="n">csmp</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">cmd</span><span class="o">/</span><span class="n">conductor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">40</span>
+<span class="n">Breakpoint</span> <span class="mi">2</span> <span class="n">at</span> <span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">cecgw</span><span class="o">/</span><span class="n">csmp</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">cmd</span><span class="o">/</span><span class="n">conductor</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">40</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="n">c</span>
+<span class="mi">2016</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">21</span> <span class="mi">14</span><span class="p">:</span><span class="mi">41</span><span class="p">:</span><span class="mf">55.005</span> <span class="mi">13939</span> <span class="n">ERROR</span> <span class="n">nova</span><span class="o">.</span><span class="n">cmd</span><span class="o">.</span><span class="n">conductor</span> <span class="p">[</span><span class="o">-</span><span class="p">]</span> <span class="o">+++===+++</span> <span class="n">conductor</span><span class="o">.</span><span class="n">topic</span><span class="p">:</span><span class="n">conductor</span>
+<span class="o">&gt;</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python2</span><span class="o">.</span><span class="mi">7</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">nova</span><span class="o">/</span><span class="n">cmd</span><span class="o">/</span><span class="n">conductor</span><span class="o">.</span><span class="n">py</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span><span class="n">main</span><span class="p">()</span>
+<span class="o">-&gt;</span> <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;+++===+++ conductor.manager:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">manager</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span> <span class="nb">list</span>
+ <span class="mi">40</span>         <span class="n">objects</span><span class="o">.</span><span class="n">register_all</span><span class="p">()</span>
+ <span class="mi">41</span>
+ <span class="mi">42</span>         <span class="n">gmr</span><span class="o">.</span><span class="n">TextGuruMeditation</span><span class="o">.</span><span class="n">setup_autorun</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+ <span class="mi">43</span>
+ <span class="mi">44</span>         <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;+++===+++ conductor.topic:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">topic</span><span class="p">)</span>
+ <span class="mi">45</span> <span class="n">B</span><span class="o">-&gt;</span>     <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;+++===+++ conductor.manager:</span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">manager</span><span class="p">)</span>
+ <span class="mi">46</span>         <span class="n">server</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">Service</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">binary</span><span class="o">=</span><span class="s1">&#39;nova-conductor&#39;</span><span class="p">,</span>
+ <span class="mi">47</span>                                         <span class="n">topic</span><span class="o">=</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">topic</span><span class="p">,</span>
+ <span class="mi">48</span>                                         <span class="n">manager</span><span class="o">=</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">manager</span><span class="p">)</span>
+ <span class="mi">49</span>         <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;+++===+++ conductor: before service.start&quot;</span><span class="p">)</span>
+ <span class="mi">50</span>         <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;+++===+++ conductor.workers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="n">CONF</span><span class="o">.</span><span class="n">conductor</span><span class="o">.</span><span class="n">workers</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Pdb</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="figure align-center" id="id10">
+<a class="reference internal image-reference" href="../_images/pdb_bk2.png"><img alt="../_images/pdb_bk2.png" src="../_images/pdb_bk2.png" style="width: 1059.0px; height: 502.0px;" /></a>
+<p class="caption"><span class="caption-text">设置跨文件断点</span></p>
+</div>
+<p class="last">可以看到，这里我设置了两个断点，两者实际是一个文件，其中：
+<code class="docutils literal notranslate"><span class="pre">/usr/lib/python2.7/dist-packages/nova/cmd/conductor.py</span></code> 是
+<code class="docutils literal notranslate"><span class="pre">/opt/cecgw/csmp/nova/cmd/conductor.py</span></code> 的链接。可以看到，
+执行时，pdb 明显跳过了 <code class="docutils literal notranslate"><span class="pre">/opt/cecgw/csmp/nova/cmd/conductor.py:40</span></code>
+的断点，因为 import 时使用的是 sys.path 中指定的路径！</p>
+</div>
+</div>
+</div>
+<div class="section" id="debug">
+<h2><a class="toc-backref" href="#id17">21.3. 命令行debug模式</a><a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h2>
+<p>OpenStack每一个服务都提供的是标准的REST-API接口，如果我们想查看查看某个api的执行细节，
+可以通过命令行开启debug模式，查看比较详细的REST-API执行细节。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ceilometer</span> <span class="o">--</span><span class="n">debug</span> <span class="n">sample</span><span class="o">-</span><span class="nb">list</span> <span class="o">-</span><span class="n">m</span> <span class="n">mem</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span><span class="n">l</span> <span class="mi">10</span>
+<span class="n">nova</span> <span class="o">--</span><span class="n">debug</span> <span class="nb">list</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id18">21.4. 使用自己编写的调试设施</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>nova 组件日志是根据进程，分别输出到 nova-api.log，nova-scheduler.log 等文件。
+假如我们自己添加一些调试信息，那么调试信息也会分散到上述不同文件，并和系统原来
+众多的日志混合在一起，查看起来非常不方便。</p>
+<p>在充分了解Python和nova日志设施后，完全可以添加自己的filehandler。参考 <a class="reference internal" href="../py_doc/log_summary.html#log-summary"><span class="std std-ref">Python logging 模块</span></a> ，可以使用该日志包记录日志，然后通过 <code class="docutils literal notranslate"><span class="pre">LOG_DEBUG()</span></code> 添加的日志信息都输出到 /smbshare/csq.log 文件。很方便！</p>
+<p>另外，nova各组件间，调用和跳转关系比较复杂，为此，自己也维护了一个工具设施 <code class="docutils literal notranslate"><span class="pre">LOG_STACK</span></code> ，可以用来很方便
+的查看函数调用栈。并格式化输出到文件 call_stack.log，如下图所示；</p>
+<div class="figure align-center" id="id11">
+<a class="reference internal image-reference" href="../_images/call_stack1.png"><img alt="../_images/call_stack1.png" src="../_images/call_stack1.png" style="width: 950.0px; height: 722.0px;" /></a>
+<p class="caption"><span class="caption-text">build_instance 函数调用栈</span></p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id19">21.5. 参考</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><a class="reference external" href="http://wsfdl.com/openstack/2013/08/28/%E8%B0%83%E8%AF%95OpenStack.html">http://wsfdl.com/openstack/2013/08/28/%E8%B0%83%E8%AF%95OpenStack.html</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><a class="reference external" href="https://www.ibm.com/developerworks/cn/linux/l-cn-pythondebugger/">https://www.ibm.com/developerworks/cn/linux/l-cn-pythondebugger/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td><a class="reference external" href="https://docs.python.org/2/library/pdb.html">https://docs.python.org/2/library/pdb.html</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="nova_rpcserver_start.html" class="btn btn-neutral float-right" title="22. nova rpc服务启动分析" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="kombu.html" class="btn btn-neutral float-left" title="20. kombu和消息队列总结" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, ZT
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
